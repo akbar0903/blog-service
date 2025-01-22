@@ -7,7 +7,6 @@ public class Admin {
     private Integer id;
     private String username;
     private String password;
-    private String salt;
     private String nickname;
     private String avatar;
     private String email;
@@ -15,4 +14,5 @@ public class Admin {
     private String bilibiliUrl;
     private String giteeUrl;
     private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
 }
