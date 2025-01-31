@@ -41,8 +41,8 @@ public class Result<T> {
     }
 
     // 不带data
-    public static Result<Void> success() {
-        return new Result<>(1, "success", null);
+    public static Result<Void> success(String msg) {
+        return new Result<>(1, msg, null);
     }
 
     // 错误

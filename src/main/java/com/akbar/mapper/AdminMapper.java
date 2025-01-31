@@ -12,5 +12,5 @@ public interface AdminMapper {
     Admin findByUsername(String username);
 
     // 管理员注册
-    void register(String username, String password);
+    void register(Admin admin);
 }
