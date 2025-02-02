@@ -2,10 +2,10 @@ package com.akbar.controller;
 
 import com.akbar.service.AdminService;
 import com.akbar.util.Result;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-@Validated
+// 因为我暂时没有分组校验的需求，所以可以只使用@valid
+@Valid
 public class AdminController {
 
     private final AdminService adminService;
@@ -28,7 +29,7 @@ public class AdminController {
     public Result<Void> register(
             @RequestParam
             @NotBlank(message = "用户名不能为空")
-            @Pattern(regexp = "^[a-zA-Z]{5,}$", message = "用户名必须是至少6个字母，并且只能包含英文字母")
+            @Pattern(regexp = "^[a-zA-Z]{5,}$", message = "用户名必须是至少5个字母，并且只能包含英文字母")
             String username,
             @RequestParam
             @NotBlank(message = "密码不能为空")
