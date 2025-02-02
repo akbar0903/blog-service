@@ -49,4 +49,22 @@ public class AdminController {
         }
         return Result.success("注册成功！");
     }
+
+
+    // 管理员登录
+    @PostMapping("/login")
+    public Result<Void> login(
+            @RequestParam
+            @NotBlank(message = "用户名不能为空")
+            String username,
+            @RequestParam
+            @NotBlank(message = "密码不能为空")
+            String password) {
+
+        boolean result = adminService.loginAdmin(username, password);
+        if (!result) {
+            return Result.error("用户名或密码错误！");
+        }
+        return Result.success("登录成功！");
+    }
 }

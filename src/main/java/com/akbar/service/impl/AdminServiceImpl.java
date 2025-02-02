@@ -30,4 +30,15 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.register(admin);
         return true;
     }
+
+
+    // 管理员登录
+    @Override
+    public boolean loginAdmin(String username, String password) {
+        Admin byUsername = adminMapper.findByUsername(username);
+        if (byUsername == null) {
+            return false;
+        }
+        return BCrypt.checkpw(password, byUsername.getPassword());
+    }
 }
