@@ -2,19 +2,14 @@ package com.akbar.controller;
 
 import com.akbar.service.AdminService;
 import com.akbar.util.Result;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
-// 因为我暂时没有分组校验的需求，所以可以只使用@valid
 @Validated
 public class AdminController {
 
@@ -67,5 +62,33 @@ public class AdminController {
             return Result.error("用户名或密码错误！");
         }
         return Result.success("登录成功！");
+    }
+
+
+    // 修改管理员密码
+    @PatchMapping
+    public Result<Void> modifyPassword(
+            @RequestParam
+            @NotBlank(message = "用户名不能为空！")
+            String username,
+            @RequestParam
+            @NotBlank(message = "旧密码不能为空！")
+            String oldPassword,
+            @RequestParam
+            @NotBlank(message = "新密码不能为空！")
+            @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "密码必须包含字母和数字，且至少8个字符！")
+            String newPassword,
+            @RequestParam
+            @NotBlank(message = "确认密码不能为空！")
+            String confirmPassword) {
+        if (!newPassword.equals(confirmPassword)) {
+            return Result.error("新密码和确认密码不匹配！");
+        }
+
+        boolean result = adminService.modifyPassword(username ,oldPassword, newPassword);
+        if (!result) {
+            return Result.error("旧密码错误！");
+        }
+        return Result.success("密码修改成功！");
     }
 }

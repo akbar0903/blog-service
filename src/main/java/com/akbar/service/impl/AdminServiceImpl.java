@@ -41,4 +41,21 @@ public class AdminServiceImpl implements AdminService {
         }
         return BCrypt.checkpw(password, byUsername.getPassword());
     }
+
+
+    // 修改密码
+    @Override
+    public boolean modifyPassword(String username, String oldPassword, String newPassword) {
+        Admin byUsername = adminMapper.findByUsername(username);
+        if (byUsername == null) {
+            return false;
+        }
+        if (!BCrypt.checkpw(oldPassword, byUsername.getPassword())) {
+            return false;
+        }
+        String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        byUsername.setPassword(hashed);
+        adminMapper.modifyPassword(byUsername);
+        return true;
+    }
 }
