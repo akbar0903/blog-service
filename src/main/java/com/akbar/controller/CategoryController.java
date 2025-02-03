@@ -34,4 +34,15 @@ public class CategoryController {
         Category category = categoryService.getCategory(id);
         return Result.success(category);
     }
+
+
+    // 修改分类
+    @PutMapping
+    public Result<Void> updateCategory(@RequestBody @Validated Category category) {
+        boolean result = categoryService.updateCategory(category);
+        if (!result) {
+            return Result.error("修改分类失败！");
+        }
+        return Result.success("修改分类成功！");
+    }
 }

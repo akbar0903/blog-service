@@ -6,6 +6,8 @@ import com.akbar.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -27,5 +29,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategory(Integer id) {
         return categoryMapper.getCategory(id);
+    }
+
+
+    // 修改分类
+    @Override
+    public boolean updateCategory(Category category) {
+        LocalDateTime now = LocalDateTime.now();
+        category.setUpdatedTime(now);
+        categoryMapper.updateCategory(category);
+        return true;
     }
 }

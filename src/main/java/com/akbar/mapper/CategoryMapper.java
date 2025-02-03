@@ -4,6 +4,7 @@ import com.akbar.domain.entity.Category;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface CategoryMapper {
@@ -13,4 +14,7 @@ public interface CategoryMapper {
 
     @Select("select * from tb_category where id = #{id}")
     Category getCategory(Integer id);
+
+    @Update("update tb_category set name = #{name}, updated_time= #{updatedTime} where id = #{id}")
+    void updateCategory(Category category);
 }
