@@ -1,9 +1,12 @@
 package com.akbar.domain.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 
 public class Admin {
     private Integer id;
     private String username;
+    @JsonIgnore
     private String password;
     private String nickname;
     private String avatar;

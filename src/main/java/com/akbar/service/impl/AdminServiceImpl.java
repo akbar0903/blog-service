@@ -6,6 +6,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -54,8 +56,33 @@ public class AdminServiceImpl implements AdminService {
             return false;
         }
         String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
+        LocalDateTime now = LocalDateTime.now();
+        byUsername.setUpdatedTime(now);
+
         byUsername.setPassword(hashed);
         adminMapper.modifyPassword(byUsername);
+        return true;
+    }
+
+
+    // 更新管理员信息
+    @Override
+    public boolean updateAdminInfo(String username, String nickname, String email, String githubUrl, String bilibiliUrl, String giteeUrl) {
+        Admin byUsername = adminMapper.findByUsername(username);
+        if (byUsername == null) {
+            return false;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+
+        byUsername.setNickname(nickname);
+        byUsername.setEmail(email);
+        byUsername.setGithubUrl(githubUrl);
+        byUsername.setBilibiliUrl(bilibiliUrl);
+        byUsername.setGiteeUrl(giteeUrl);
+        byUsername.setUpdatedTime(now);
+        adminMapper.updateAdminInfo(byUsername);
         return true;
     }
 }

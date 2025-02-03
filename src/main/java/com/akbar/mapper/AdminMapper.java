@@ -16,6 +16,9 @@ public interface AdminMapper {
     void register(Admin admin);
 
     // 修改密码
-    @Update("update tb_admin set password=#{password} where username=#{username}")
-    void modifyPassword(Admin byUsername);
+    @Update("update tb_admin set password=#{password}, updated_time=#{updatedTime} where username=#{username}")
+    void modifyPassword(Admin admin);
+
+    //@Update("update tb_admin set nickname=#{nickname}, email=#{email}, github_url=#{githubUrl}, bilibili_url=#{bilibiliUrl}, gitee_url=#{giteeUrl}, updated_time=#{updatedTime} where username=#{username}")
+    void updateAdminInfo(Admin admin);
 }

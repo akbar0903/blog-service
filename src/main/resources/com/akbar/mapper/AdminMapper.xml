@@ -8,4 +8,15 @@
         insert into tb_admin(username, password)
         values (#{username}, #{password});
     </insert>
+
+    <update id="updateAdminInfo">
+        update tb_admin set
+        <if test="username!= null">nickname = #{nickname},</if>
+        <if test="email!= null">email = #{email},</if>
+        <if test="githubUrl!= null">github_url = #{githubUrl},</if>
+        <if test="bilibiliUrl!= null">bilibili_url = #{bilibiliUrl},</if>
+        <if test="giteeUrl!= null">gitee_url = #{giteeUrl},</if>
+        <if test="updatedTime!= null">updated_time = #{updatedTime}</if>
+        where username = #{username}
+    </update>
 </mapper>
