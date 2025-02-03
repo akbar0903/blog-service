@@ -18,11 +18,6 @@ public class GlobalExceptionHandler {
     public Result<Void> handleException(Exception e) {
         // 错误输出到控制台
         LOGGER.error("全局异常捕获", e);
-        String errorMessage = e.getMessage();
-        if (StringUtils.hasLength(errorMessage)) {
-            // 使用正则去掉字段名前缀，如 "login.password:"
-            errorMessage = errorMessage.replaceFirst("^.*?:", "").trim();  // 去掉字段名及冒号
-        }
-        return Result.error(StringUtils.hasLength(errorMessage) ? errorMessage : "操作失败！");
+        return Result.error(StringUtils.hasLength(e.getMessage())? e.getMessage() : "操作失败！");
     }
 }
