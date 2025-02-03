@@ -85,4 +85,11 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.updateAdminInfo(byUsername);
         return true;
     }
+
+
+    // 获取管理员信息
+    @Override
+    public Admin getAdminInfo(String username) {
+        return adminMapper.findByUsername(username);
+    }
 }

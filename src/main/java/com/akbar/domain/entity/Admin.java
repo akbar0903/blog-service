@@ -1,4 +1,5 @@
 package com.akbar.domain.entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,9 @@ public class Admin {
     private String githubUrl;
     private String bilibiliUrl;
     private String giteeUrl;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedTime;
 
     public Integer getId() {

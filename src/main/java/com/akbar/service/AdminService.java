@@ -1,5 +1,7 @@
 package com.akbar.service;
 
+import com.akbar.domain.entity.Admin;
+
 public interface AdminService {
 
     // 管理员注册
@@ -13,4 +15,7 @@ public interface AdminService {
 
     // 更新管理员信息
     boolean updateAdminInfo(String username, String nickname, String email, String githubUrl, String bilibiliUrl, String giteeUrl);
+
+    // 获取管理员信息
+    Admin getAdminInfo(String username);
 }

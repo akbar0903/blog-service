@@ -1,5 +1,6 @@
 package com.akbar.controller;
 
+import com.akbar.domain.entity.Admin;
 import com.akbar.service.AdminService;
 import com.akbar.util.Result;
 import jakarta.validation.constraints.Email;
@@ -103,7 +104,7 @@ public class AdminController {
 
 
     // 更新和完善管理员信息
-    @PatchMapping("/info")
+    @PatchMapping("/update-info")
     public Result<Void> updateAdminInfo(
             @RequestParam(value = "username")
             @NotBlank(message = "用户名不能为空！")
@@ -133,5 +134,13 @@ public class AdminController {
             return Result.error("更新失败！");
         }
         return Result.success("更新成功！");
+    }
+
+
+    // 获取管理员信息
+    @GetMapping
+    public Result<Admin> getAdminInfo(@RequestParam(value = "username") String username) {
+        Admin admin = adminService.getAdminInfo(username);
+        return Result.success(admin);
     }
 }
