@@ -21,4 +21,11 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.addCategory(category);
         return true;
     }
+
+
+    // 回显分类
+    @Override
+    public Category getCategory(Integer id) {
+        return categoryMapper.getCategory(id);
+    }
 }

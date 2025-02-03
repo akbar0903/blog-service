@@ -5,10 +5,7 @@ import com.akbar.service.CategoryService;
 import com.akbar.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/category")
@@ -28,5 +25,13 @@ public class CategoryController {
             return Result.error("新增分类失败！");
         }
         return Result.success("新增分类成功！");
+    }
+
+
+    // 回显分类
+    @GetMapping
+    public Result<Category> getCategory(@RequestParam(value = "id") Integer id) {
+        Category category = categoryService.getCategory(id);
+        return Result.success(category);
     }
 }
