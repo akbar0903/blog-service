@@ -1,10 +1,7 @@
 package com.akbar.mapper;
 
 import com.akbar.domain.entity.Category;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface CategoryMapper {
@@ -17,4 +14,7 @@ public interface CategoryMapper {
 
     @Update("update tb_category set name = #{name}, updated_time= #{updatedTime} where id = #{id}")
     void updateCategory(Category category);
+
+    @Delete("delete from tb_category where id = #{id}")
+    void deleteCategory(Integer id);
 }

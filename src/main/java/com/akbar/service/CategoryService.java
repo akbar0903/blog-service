@@ -12,4 +12,7 @@ public interface CategoryService {
 
     // 修改分类
     boolean updateCategory(Category category);
+
+    // 删除分类
+    boolean deleteCategory(Integer id);
 }

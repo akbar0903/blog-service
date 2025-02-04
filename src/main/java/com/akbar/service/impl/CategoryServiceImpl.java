@@ -40,4 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.updateCategory(category);
         return true;
     }
+
+
+    // 删除分类
+    @Override
+    public boolean deleteCategory(Integer id) {
+        categoryMapper.deleteCategory(id);
+        return true;
+    }
 }

@@ -45,4 +45,15 @@ public class CategoryController {
         }
         return Result.success("修改分类成功！");
     }
+
+
+    // 删除分类
+    @DeleteMapping
+    public Result<Void> deleteCategory(@RequestParam(value = "id") Integer id) {
+        boolean result = categoryService.deleteCategory(id);
+        if (!result) {
+            return Result.error("删除分类失败！");
+        }
+        return Result.success("删除分类成功！");
+    }
 }
