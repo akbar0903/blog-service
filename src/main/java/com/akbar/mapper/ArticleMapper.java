@@ -10,4 +10,6 @@ public interface ArticleMapper {
     void addArticle(Article article);
 
     Article getArticle(Integer id);
+
+    void updateArticle(Article article);
 }

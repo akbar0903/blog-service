@@ -31,4 +31,13 @@ public class ArticleController {
         Article article = articleService.getArticle(id);
         return Result.success(article);
     }
+
+
+    // 更新文章
+    @PutMapping
+    public Result<Void> updateArticle(@RequestBody @Validated Article article) {
+        articleService.updateArticle(article);
+        System.out.println(article);
+        return Result.success("更新文章成功！");
+    }
 }

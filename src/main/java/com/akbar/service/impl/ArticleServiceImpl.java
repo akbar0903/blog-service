@@ -6,6 +6,8 @@ import com.akbar.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleMapper articleMapper;
@@ -22,5 +24,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article getArticle(Integer id) {
         return articleMapper.getArticle(id);
+    }
+
+    @Override
+    public void updateArticle(Article article) {
+        LocalDateTime now = LocalDateTime.now();
+        article.setUpdatedTime(now);
+        articleMapper.updateArticle(article);
     }
 }
