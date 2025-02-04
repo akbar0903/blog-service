@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -55,5 +57,21 @@ public class CategoryController {
             return Result.error("删除分类失败！");
         }
         return Result.success("删除分类成功！");
+    }
+
+
+    // 获取分类列表
+    @GetMapping("/list")
+    public Result<List<Category>> getCategoryList() {
+        List<Category> categoryList = categoryService.getCategoryList();
+        return Result.success(categoryList);
+    }
+
+
+    // 分类搜索
+    @GetMapping("/search")
+    public Result<List<Category>> searchCategory(@RequestParam(value = "name") String name) {
+        List<Category> categoryList = categoryService.searchCategory(name);
+        return Result.success(categoryList);
     }
 }

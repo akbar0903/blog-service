@@ -2,6 +2,8 @@ package com.akbar.service;
 
 import com.akbar.domain.entity.Category;
 
+import java.util.List;
+
 public interface CategoryService {
 
     // 新增分类
@@ -15,4 +17,10 @@ public interface CategoryService {
 
     // 删除分类
     boolean deleteCategory(Integer id);
+
+    // 获取分类列表
+    List<Category> getCategoryList();
+
+    // 搜索分类
+    List<Category> searchCategory(String name);
 }

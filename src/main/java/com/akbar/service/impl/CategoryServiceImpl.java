@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -47,5 +48,19 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean deleteCategory(Integer id) {
         categoryMapper.deleteCategory(id);
         return true;
+    }
+
+
+    // 查询所有分类
+    @Override
+    public List<Category> getCategoryList() {
+        return categoryMapper.getCategoryList();
+    }
+
+
+    // 搜索分类
+    @Override
+    public List<Category> searchCategory(String name) {
+        return categoryMapper.searchCategory(name);
     }
 }

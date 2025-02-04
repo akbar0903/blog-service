@@ -3,6 +3,8 @@ package com.akbar.mapper;
 import com.akbar.domain.entity.Category;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface CategoryMapper {
 
@@ -17,4 +19,10 @@ public interface CategoryMapper {
 
     @Delete("delete from tb_category where id = #{id}")
     void deleteCategory(Integer id);
+
+    @Select("select * from tb_category")
+    List<Category> getCategoryList();
+
+    @Select("select * from tb_category where name like concat('%', #{name}, '%')")
+    List<Category> searchCategory(String name);
 }
