@@ -9,4 +9,8 @@
         insert into tb_article (title, summary, content, cover_image, state, admin_id, category_id, tag_id) values
         (#{title}, #{summary}, #{content}, #{coverImage}, #{state}, #{adminId}, #{categoryId}, #{tagId});
     </insert>
+
+    <select id="getArticle" resultType="com.akbar.domain.entity.Article">
+        select * from tb_article where id = #{id};
+    </select>
 </mapper>
