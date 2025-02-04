@@ -22,10 +22,7 @@ public class CategoryController {
     // 新增分类
     @PostMapping
     public Result<Void> addCategory(@RequestBody @Validated Category category) {
-        boolean result = categoryService.addCategory(category);
-        if (!result) {
-            return Result.error("新增分类失败！");
-        }
+        categoryService.addCategory(category);
         return Result.success("新增分类成功！");
     }
 
@@ -41,10 +38,7 @@ public class CategoryController {
     // 修改分类
     @PutMapping
     public Result<Void> updateCategory(@RequestBody @Validated Category category) {
-        boolean result = categoryService.updateCategory(category);
-        if (!result) {
-            return Result.error("修改分类失败！");
-        }
+        categoryService.updateCategory(category);
         return Result.success("修改分类成功！");
     }
 
@@ -52,10 +46,7 @@ public class CategoryController {
     // 删除分类
     @DeleteMapping
     public Result<Void> deleteCategory(@RequestParam(value = "id") Integer id) {
-        boolean result = categoryService.deleteCategory(id);
-        if (!result) {
-            return Result.error("删除分类失败！");
-        }
+        categoryService.deleteCategory(id);
         return Result.success("删除分类成功！");
     }
 

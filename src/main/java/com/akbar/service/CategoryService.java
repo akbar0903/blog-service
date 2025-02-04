@@ -7,16 +7,16 @@ import java.util.List;
 public interface CategoryService {
 
     // 新增分类
-    boolean addCategory(Category category);
+     void addCategory(Category category);
 
     // 回显分类
     Category getCategory(Integer id);
 
     // 修改分类
-    boolean updateCategory(Category category);
+    void updateCategory(Category category);
 
     // 删除分类
-    boolean deleteCategory(Integer id);
+    void deleteCategory(Integer id);
 
     // 获取分类列表
     List<Category> getCategoryList();

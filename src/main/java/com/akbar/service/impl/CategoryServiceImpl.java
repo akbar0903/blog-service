@@ -20,9 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     // 新增分类
     @Override
-    public boolean addCategory(Category category) {
+    public void addCategory(Category category) {
         categoryMapper.addCategory(category);
-        return true;
     }
 
 
@@ -35,19 +34,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     // 修改分类
     @Override
-    public boolean updateCategory(Category category) {
+    public void updateCategory(Category category) {
         LocalDateTime now = LocalDateTime.now();
         category.setUpdatedTime(now);
         categoryMapper.updateCategory(category);
-        return true;
     }
 
 
     // 删除分类
     @Override
-    public boolean deleteCategory(Integer id) {
+    public void deleteCategory(Integer id) {
         categoryMapper.deleteCategory(id);
-        return true;
     }
 
 
