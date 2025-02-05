@@ -54,4 +54,12 @@ public class ArticleController {
                                            @RequestParam(value = "state",required = false) String state) {
         return Result.success(articleService.page(page, pageSize, title, categoryId, tagId, state));
     }
+
+
+    // 删除文章
+    @DeleteMapping("/{id}")
+    public Result<Void> deleteArticle(@PathVariable("id") Integer id) {
+        articleService.deleteArticle(id);
+        return Result.success("删除文章成功！");
+    }
 }

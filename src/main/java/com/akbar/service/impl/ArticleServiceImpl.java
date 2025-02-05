@@ -46,4 +46,9 @@ public class ArticleServiceImpl implements ArticleService {
         Page<ArticleResult> page = (Page<ArticleResult>) articleResults;
         return new PageBean(page.getTotal(),page.getResult());
     }
+
+    @Override
+    public void deleteArticle(Integer id) {
+        articleMapper.deleteArticle(id);
+    }
 }
