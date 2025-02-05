@@ -28,24 +28,24 @@ public class ArticleController {
 
 
     // 回显文章
-    @GetMapping
-    public Result<ArticleResult> getArticle(@RequestParam("id") Integer id) {
+    @GetMapping("/{id}")
+    public Result<ArticleResult> getArticle(@PathVariable("id") Integer id) {
         ArticleResult articleResult = articleService.getArticle(id);
         return Result.success(articleResult);
     }
 
 
     // 更新文章
-    @PutMapping
-    public Result<Void> updateArticle(@RequestBody @Validated Article article) {
+    @PutMapping("/{id}")
+    public Result<Void> updateArticle(@PathVariable("id") Integer id,@RequestBody @Validated Article article) {
+        article.setId(id);
         articleService.updateArticle(article);
-        System.out.println(article);
         return Result.success("更新文章成功！");
     }
 
 
     // 分页获取文章列表
-    @GetMapping("/list")
+    @GetMapping("/articles")
     public Result<PageBean> getArticleList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                                            @RequestParam(value = "title",required = false) String title,
