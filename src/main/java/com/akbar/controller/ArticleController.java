@@ -1,6 +1,8 @@
 package com.akbar.controller;
 
 import com.akbar.domain.entity.Article;
+import com.akbar.domain.vo.ArticleResult;
+import com.akbar.domain.vo.PageBean;
 import com.akbar.service.ArticleService;
 import com.akbar.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,9 @@ public class ArticleController {
 
     // 回显文章
     @GetMapping
-    public Result<Article> getArticle(@RequestParam("id") Integer id) {
-        Article article = articleService.getArticle(id);
-        return Result.success(article);
+    public Result<ArticleResult> getArticle(@RequestParam("id") Integer id) {
+        ArticleResult articleResult = articleService.getArticle(id);
+        return Result.success(articleResult);
     }
 
 
@@ -39,5 +41,17 @@ public class ArticleController {
         articleService.updateArticle(article);
         System.out.println(article);
         return Result.success("更新文章成功！");
+    }
+
+
+    // 分页获取文章列表
+    @GetMapping("/list")
+    public Result<PageBean> getArticleList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                           @RequestParam(value = "title",required = false) String title,
+                                           @RequestParam(value = "categoryId",required = false) Integer categoryId,
+                                           @RequestParam(value = "tagId",required = false) Integer tagId,
+                                           @RequestParam(value = "state",required = false) String state) {
+        return Result.success(articleService.page(page, pageSize, title, categoryId, tagId, state));
     }
 }

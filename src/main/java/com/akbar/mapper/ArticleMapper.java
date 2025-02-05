@@ -1,15 +1,20 @@
 package com.akbar.mapper;
 
 import com.akbar.domain.entity.Article;
-import org.apache.ibatis.annotations.Insert;
+import com.akbar.domain.vo.ArticleResult;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
 
     void addArticle(Article article);
 
-    Article getArticle(Integer id);
+    ArticleResult getArticle(Integer id);
 
     void updateArticle(Article article);
+
+    List<ArticleResult> pageArticle(String title, Integer categoryId, Integer tagId, String state);
 }
