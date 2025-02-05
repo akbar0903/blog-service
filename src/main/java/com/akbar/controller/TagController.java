@@ -28,31 +28,32 @@ public class TagController {
 
 
     // 修改标签
-    @PutMapping
-    public Result<Void> updateTag(@RequestBody @Validated Tag tag) {
+    @PutMapping("/{id}")
+    public Result<Void> updateTag(@PathVariable Integer id,@RequestBody @Validated Tag tag) {
+        tag.setId(id);
         tagService.updateTag(tag);
         return Result.success("修改标签成功！");
     }
 
 
     // 回显标签
-    @GetMapping
-    public Result<Tag> getTag(@RequestParam("id") Integer id) {
+    @GetMapping("/{id}")
+    public Result<Tag> getTag(@PathVariable Integer id) {
         Tag tag = tagService.getTag(id);
         return Result.success(tag);
     }
 
 
     // 删除标签
-    @DeleteMapping
-    public Result<Void> deleteTag(@RequestParam("id") Integer id) {
+    @DeleteMapping("/{id}")
+    public Result<Void> deleteTag(@PathVariable Integer id) {
         tagService.deleteTag(id);
         return Result.success("删除标签成功！");
     }
 
 
     // 获取所有标签列表
-    @GetMapping("/list")
+    @GetMapping
     public Result<List<Tag>> getTagList() {
         List<Tag> tagList = tagService.getTagList();
         return Result.success(tagList);

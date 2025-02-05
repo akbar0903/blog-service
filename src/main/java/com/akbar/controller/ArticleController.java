@@ -45,7 +45,7 @@ public class ArticleController {
 
 
     // 分页获取文章列表
-    @GetMapping("/articles")
+    @GetMapping
     public Result<PageBean> getArticleList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
                                            @RequestParam(value = "title",required = false) String title,
