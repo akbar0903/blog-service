@@ -28,31 +28,32 @@ public class CategoryController {
 
 
     // 回显分类
-    @GetMapping
-    public Result<Category> getCategory(@RequestParam(value = "id") Integer id) {
+    @GetMapping("/{id}")
+    public Result<Category> getCategory(@PathVariable Integer id) {
         Category category = categoryService.getCategory(id);
         return Result.success(category);
     }
 
 
     // 修改分类
-    @PutMapping
-    public Result<Void> updateCategory(@RequestBody @Validated Category category) {
+    @PutMapping("/{id}")
+    public Result<Void> updateCategory(@PathVariable Integer id, @RequestBody @Validated Category category) {
+        category.setId(id);
         categoryService.updateCategory(category);
         return Result.success("修改分类成功！");
     }
 
 
     // 删除分类
-    @DeleteMapping
-    public Result<Void> deleteCategory(@RequestParam(value = "id") Integer id) {
+    @DeleteMapping("/{id}")
+    public Result<Void> deleteCategory(@PathVariable Integer id) {
         categoryService.deleteCategory(id);
         return Result.success("删除分类成功！");
     }
 
 
     // 获取分类列表
-    @GetMapping("/list")
+    @GetMapping
     public Result<List<Category>> getCategoryList() {
         List<Category> categoryList = categoryService.getCategoryList();
         return Result.success(categoryList);
