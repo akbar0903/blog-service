@@ -20,8 +20,11 @@ public class Article {
     @URL
     private String coverImage;
     private String state;           // 'draft','published'
+    @NotBlank(message = "管理员id不能为空！")
     private Integer adminId;
+    @NotBlank(message = "分类id不能为空！")
     private Integer categoryId;
+    @NotBlank(message = "标签id不能为空！")
     private Integer tagId;
 
     public Integer getId() {

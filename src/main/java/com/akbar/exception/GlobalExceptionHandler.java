@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
         return Result.error("无法完成操作，指定的项已被占用，请尝试其他。");
     }
 
+
     // 处理 MethodArgumentNotValidException（验证失败的异常）
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<Void> handleValidationException(MethodArgumentNotValidException e) {
@@ -48,6 +49,7 @@ public class GlobalExceptionHandler {
         // 返回给前端详细的错误信息
         return Result.error(errorMessage.toString());
     }
+
 
     // 处理全局异常
     @ExceptionHandler(Exception.class)
