@@ -30,6 +30,24 @@ public class GlobalExceptionHandler {
     }
 
 
+    // 处理文件上传异常
+    @ExceptionHandler(RuntimeException.class)
+    public Result<Void> handleOssOperationException(RuntimeException e) {
+        if (e.getMessage().contains("文件上传失败")) {
+            LOGGER.error("文件上传失败: {}", e.getMessage());
+            return Result.error("文件上传失败，请重试或检查网络连接。");
+        }
+        if (e.getMessage().contains("文件删除失败")) {
+            LOGGER.error("文件删除失败: {}", e.getMessage());
+            return Result.error("文件删除失败，请重试或检查文件是否存在。");
+        }
+
+        // 处理其他异常
+        LOGGER.error("操作失败: {}", e.getMessage());
+        return Result.error("操作失败，稍后重试！");
+    }
+
+
     // 处理 MethodArgumentNotValidException（验证失败的异常）
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<Void> handleValidationException(MethodArgumentNotValidException e) {
