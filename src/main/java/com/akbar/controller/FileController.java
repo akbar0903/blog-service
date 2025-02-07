@@ -30,7 +30,7 @@ public class FileController {
 
         String originalFilename = file.getOriginalFilename();
         // 获取文件扩展名（小写形式）
-        String fileExtension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase() : "";
+        String fileExtension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".") + 1) : "";
         if (!ValidateImageExtension.isValidImageExtension(fileExtension)) {
             return new Result<>(0, "文件格式不支持，仅支持png, jpg, jpeg, gif, webp格式的图片", null);
         }
