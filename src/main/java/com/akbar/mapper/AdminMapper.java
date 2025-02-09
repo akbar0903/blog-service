@@ -19,6 +19,9 @@ public interface AdminMapper {
     @Update("update tb_admin set password=#{password}, updated_time=#{updatedTime} where username=#{username}")
     void modifyPassword(Admin admin);
 
-    //@Update("update tb_admin set nickname=#{nickname}, email=#{email}, github_url=#{githubUrl}, bilibili_url=#{bilibiliUrl}, gitee_url=#{giteeUrl}, updated_time=#{updatedTime} where username=#{username}")
+    // 更新管理员信息
     void updateAdminInfo(Admin admin);
+
+    // 上传头像
+    void uploadAvatar(Admin byUsername);
 }

@@ -139,6 +139,26 @@ public class AdminController {
     }
 
 
+    // 上传管理员头像
+    @PatchMapping("/update-avatar")
+    @LogAnno(operationType = "设置管理员头像")
+    public Result<Void> uploadAvatar(
+            @RequestParam(value = "username")
+            @NotBlank(message = "用户名不能为空！")
+            String username,
+
+            @RequestParam(value = "avatar")
+            @URL(message = "头像格式不正确！")
+            String avatar) {
+
+        boolean result = adminService.uploadAvatar(username, avatar);
+        if (!result) {
+            return Result.error("上传头像失败！");
+        }
+        return Result.success("上传头像成功！");
+    }
+
+
     // 获取管理员信息
     @GetMapping
     public Result<Admin> getAdminInfo(@RequestParam(value = "username") String username) {

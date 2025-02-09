@@ -18,4 +18,7 @@ public interface AdminService {
 
     // 获取管理员信息
     Admin getAdminInfo(String username);
+
+    // 上传头像
+    boolean uploadAvatar(String username, String avatar);
 }

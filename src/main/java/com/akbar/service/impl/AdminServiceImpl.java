@@ -92,4 +92,20 @@ public class AdminServiceImpl implements AdminService {
     public Admin getAdminInfo(String username) {
         return adminMapper.findByUsername(username);
     }
+
+
+    // 上传头像
+    @Override
+    public boolean uploadAvatar(String username, String avatar) {
+        Admin byUsername = adminMapper.findByUsername(username);
+        if (byUsername == null) {
+            return false;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        byUsername.setAvatar(avatar);
+        byUsername.setUpdatedTime(now);
+        adminMapper.uploadAvatar(byUsername);
+        return true;
+    }
 }
