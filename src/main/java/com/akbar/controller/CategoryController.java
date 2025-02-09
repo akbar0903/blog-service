@@ -1,5 +1,6 @@
 package com.akbar.controller;
 
+import com.akbar.annotation.LogAnno;
 import com.akbar.domain.entity.Category;
 import com.akbar.service.CategoryService;
 import com.akbar.util.Result;
@@ -21,6 +22,7 @@ public class CategoryController {
 
     // 新增分类
     @PostMapping
+    @LogAnno(operationType = "新增分类")
     public Result<Void> addCategory(@RequestBody @Validated Category category) {
         categoryService.addCategory(category);
         return Result.success("新增分类成功！");
@@ -37,6 +39,7 @@ public class CategoryController {
 
     // 修改分类
     @PutMapping("/{id}")
+    @LogAnno(operationType = "修改分类")
     public Result<Void> updateCategory(@PathVariable Integer id, @RequestBody @Validated Category category) {
         category.setId(id);
         categoryService.updateCategory(category);
@@ -46,6 +49,7 @@ public class CategoryController {
 
     // 删除分类
     @DeleteMapping("/{id}")
+    @LogAnno(operationType = "删除分类")
     public Result<Void> deleteCategory(@PathVariable Integer id) {
         categoryService.deleteCategory(id);
         return Result.success("删除分类成功！");

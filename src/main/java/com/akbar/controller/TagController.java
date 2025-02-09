@@ -1,5 +1,6 @@
 package com.akbar.controller;
 
+import com.akbar.annotation.LogAnno;
 import com.akbar.domain.entity.Tag;
 import com.akbar.service.TagService;
 import com.akbar.util.Result;
@@ -21,6 +22,7 @@ public class TagController {
 
     // 添加标签
     @PostMapping
+    @LogAnno(operationType = "添加标签")
     public Result<Void> addTag(@RequestBody @Validated Tag tag) {
         tagService.addTag(tag);
         return Result.success("添加标签成功！");
@@ -29,6 +31,7 @@ public class TagController {
 
     // 修改标签
     @PutMapping("/{id}")
+    @LogAnno(operationType = "修改标签")
     public Result<Void> updateTag(@PathVariable Integer id,@RequestBody @Validated Tag tag) {
         tag.setId(id);
         tagService.updateTag(tag);
@@ -46,6 +49,7 @@ public class TagController {
 
     // 删除标签
     @DeleteMapping("/{id}")
+    @LogAnno(operationType = "删除标签")
     public Result<Void> deleteTag(@PathVariable Integer id) {
         tagService.deleteTag(id);
         return Result.success("删除标签成功！");

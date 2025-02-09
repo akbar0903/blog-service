@@ -1,5 +1,6 @@
 package com.akbar.controller;
 
+import com.akbar.annotation.LogAnno;
 import com.akbar.domain.entity.Admin;
 import com.akbar.service.AdminService;
 import com.akbar.util.Result;
@@ -105,6 +106,7 @@ public class AdminController {
 
     // 更新和完善管理员信息
     @PatchMapping("/update-info")
+    @LogAnno(operationType = "更新管理员信息")
     public Result<Void> updateAdminInfo(
             @RequestParam(value = "username")
             @NotBlank(message = "用户名不能为空！")
