@@ -30,8 +30,8 @@ public class CategoryController {
 
 
     // 回显分类
-    @GetMapping("/{id}")
-    public Result<Category> getCategory(@PathVariable Integer id) {
+    @GetMapping("/info")
+    public Result<Category> getCategory(@RequestParam Integer id) {
         Category category = categoryService.getCategory(id);
         return Result.success(category);
     }
@@ -57,7 +57,7 @@ public class CategoryController {
 
 
     // 获取分类列表
-    @GetMapping
+    @GetMapping("/list")
     public Result<List<Category>> getCategoryList() {
         List<Category> categoryList = categoryService.getCategoryList();
         return Result.success(categoryList);

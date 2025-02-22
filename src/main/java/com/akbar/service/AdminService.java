@@ -1,6 +1,7 @@
 package com.akbar.service;
 
 import com.akbar.domain.entity.Admin;
+import jakarta.validation.constraints.NotBlank;
 
 public interface AdminService {
 

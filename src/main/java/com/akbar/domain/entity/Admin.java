@@ -1,4 +1,5 @@
 package com.akbar.domain.entity;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,6 +24,7 @@ public class Admin {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -30,6 +32,7 @@ public class Admin {
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -37,6 +40,7 @@ public class Admin {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -44,6 +48,7 @@ public class Admin {
     public String getNickname() {
         return nickname;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -51,6 +56,7 @@ public class Admin {
     public String getAvatar() {
         return avatar;
     }
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
@@ -58,6 +64,7 @@ public class Admin {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -65,6 +72,7 @@ public class Admin {
     public String getGithubUrl() {
         return githubUrl;
     }
+
     public void setGithubUrl(String githubUrl) {
         this.githubUrl = githubUrl;
     }
@@ -72,6 +80,7 @@ public class Admin {
     public String getBilibiliUrl() {
         return bilibiliUrl;
     }
+
     public void setBilibiliUrl(String bilibiliUrl) {
         this.bilibiliUrl = bilibiliUrl;
     }
@@ -79,6 +88,7 @@ public class Admin {
     public String getGiteeUrl() {
         return giteeUrl;
     }
+
     public void setGiteeUrl(String giteeUrl) {
         this.giteeUrl = giteeUrl;
     }
@@ -86,6 +96,7 @@ public class Admin {
     public LocalDateTime getCreatedTime() {
         return createdTime;
     }
+
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
@@ -93,6 +104,7 @@ public class Admin {
     public LocalDateTime getUpdatedTime() {
         return updatedTime;
     }
+
     public void setUpdatedTime(LocalDateTime updatedTime) {
         this.updatedTime = updatedTime;
     }

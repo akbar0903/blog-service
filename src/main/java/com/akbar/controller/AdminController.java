@@ -3,6 +3,7 @@ package com.akbar.controller;
 import com.akbar.annotation.LogAnno;
 import com.akbar.domain.entity.Admin;
 import com.akbar.service.AdminService;
+import com.akbar.util.JwtUtil;
 import com.akbar.util.Result;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,6 +12,9 @@ import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
@@ -25,7 +29,7 @@ public class AdminController {
     }
 
     // 管理员注册
-    @PostMapping
+    @PostMapping("/register")
     public Result<Void> register(
             @RequestParam(value = "username")
             @NotBlank(message = "用户名不能为空")
@@ -55,7 +59,7 @@ public class AdminController {
 
     // 管理员登录
     @PostMapping("/login")
-    public Result<Void> login(
+    public Result<String> login(
             @RequestParam(value = "username")
             @NotBlank(message = "用户名不能为空")
             String username,
@@ -66,9 +70,17 @@ public class AdminController {
 
         boolean result = adminService.loginAdmin(username, password);
         if (!result) {
-            return Result.error("用户名或密码错误！");
+            return new Result<>(0, "用户名或密码错误！", null);
         }
-        return Result.success("登录成功！");
+
+        // 登陆成功，生成令牌，下发令牌
+        Admin admin = adminService.getAdminInfo(username);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", admin.getId());
+        claims.put("username", admin.getUsername());
+        String token = JwtUtil.generateToken(claims);
+
+        return new Result<>(1, "登录成功！", token);
     }
 
 
@@ -160,7 +172,7 @@ public class AdminController {
 
 
     // 获取管理员信息
-    @GetMapping
+    @GetMapping("/info")
     public Result<Admin> getAdminInfo(@RequestParam(value = "username") String username) {
         Admin admin = adminService.getAdminInfo(username);
         return Result.success(admin);

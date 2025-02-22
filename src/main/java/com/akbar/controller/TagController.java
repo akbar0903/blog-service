@@ -40,8 +40,8 @@ public class TagController {
 
 
     // 回显标签
-    @GetMapping("/{id}")
-    public Result<Tag> getTag(@PathVariable Integer id) {
+    @GetMapping("/info")
+    public Result<Tag> getTag(@RequestParam Integer id) {
         Tag tag = tagService.getTag(id);
         return Result.success(tag);
     }
@@ -57,7 +57,7 @@ public class TagController {
 
 
     // 获取所有标签列表
-    @GetMapping
+    @GetMapping("/list")
     public Result<List<Tag>> getTagList() {
         List<Tag> tagList = tagService.getTagList();
         return Result.success(tagList);
