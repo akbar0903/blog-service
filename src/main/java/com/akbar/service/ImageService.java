@@ -1,6 +1,6 @@
 package com.akbar.service;
 
-import com.akbar.domain.vo.PageBean;
+import com.akbar.pojo.vo.PageBean;
 
 public interface ImageService {
     boolean addImage(String url, String objectName);

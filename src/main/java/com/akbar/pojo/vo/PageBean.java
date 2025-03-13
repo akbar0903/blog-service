@@ -1,4 +1,4 @@
-package com.akbar.domain.vo;
+package com.akbar.pojo.vo;
 
 import java.util.List;
 

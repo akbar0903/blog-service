@@ -1,111 +1,105 @@
 package com.akbar.service.impl;
-import com.akbar.domain.entity.Admin;
+import com.akbar.constant.MessageConstant;
+import com.akbar.exception.AccountNotFoundException;
+import com.akbar.exception.PasswordErrorException;
+import com.akbar.pojo.dto.admin.AdminLoginDto;
+import com.akbar.pojo.dto.admin.AdminUpdateDto;
+import com.akbar.pojo.dto.admin.PasswordEditDto;
+import com.akbar.pojo.entity.Admin;
 import com.akbar.mapper.AdminMapper;
+import com.akbar.pojo.vo.admin.AdminVo;
 import com.akbar.service.AdminService;
-import org.mindrot.jbcrypt.BCrypt;
+import com.akbar.util.BCryptUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    private final AdminMapper adminMapper;
     @Autowired
-    public AdminServiceImpl(AdminMapper adminMapper) {
-        this.adminMapper = adminMapper;
-    }
+    private AdminMapper adminMapper;
 
-    // 管理员注册
+
+    /**
+     * 管理员登录
+     */
     @Override
-    public boolean registerAdmin(String username, String password) {
-        Admin byUsername = adminMapper.findByUsername(username);
-        if (byUsername != null) {
-            return false;
+    public Admin loginAdmin(AdminLoginDto adminLoginDto) {
+        String username = adminLoginDto.getUsername();
+        String password = adminLoginDto.getPassword();
+
+        Admin admin = adminMapper.getByUserName(username);
+
+        if (admin == null) {
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
-        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+        if (!BCryptUtil.checkPassword(password, admin.getPassword())) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        return admin;
+    }
+
+
+    /**
+     * 修改管理员密码
+     */
+    @Override
+    public void updatePassword(PasswordEditDto passwordEditDto) {
+        Integer id = passwordEditDto.getId();
+        String oldPassword = passwordEditDto.getOldPassword();
+        String newPassword = passwordEditDto.getNewPassword();
+        String confirmPassword = passwordEditDto.getConfirmPassword();
+
+        Admin admin = adminMapper.getById(id);
+
+        if (!BCryptUtil.checkPassword(oldPassword, admin.getPassword())) {
+            throw new PasswordErrorException(MessageConstant.OLD_PASSWORD_ERROR);
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            throw new PasswordErrorException(MessageConstant.PASSWORDS_DIFFERENT);
+        }
+
+
+        adminMapper.update(admin);
+    }
+
+
+    /**
+     * 更新管理员信息
+     */
+    @Override
+    public void updateInfo(AdminUpdateDto adminUpdateDto) {
         Admin admin = new Admin();
-        admin.setUsername(username);
-        admin.setPassword(hashed);
-        adminMapper.register(admin);
-        return true;
+        BeanUtils.copyProperties(adminUpdateDto, admin);
+        adminMapper.update(admin);
     }
 
 
-    // 管理员登录
+    /**
+     * 上传头像
+     */
     @Override
-    public boolean loginAdmin(String username, String password) {
-        Admin byUsername = adminMapper.findByUsername(username);
-        if (byUsername == null) {
-            return false;
-        }
-        return BCrypt.checkpw(password, byUsername.getPassword());
+    public void uploadAvatar(Integer id, String avatar) {
+        Admin admin = new Admin();
+        admin.setId(id);
+        admin.setAvatar(avatar);
+
+        adminMapper.update(admin);
     }
 
 
-    // 修改密码
+    /**
+     * 获取管理员信息
+     */
     @Override
-    public boolean modifyPassword(String username, String oldPassword, String newPassword) {
-        Admin byUsername = adminMapper.findByUsername(username);
-        if (byUsername == null) {
-            return false;
-        }
-        if (!BCrypt.checkpw(oldPassword, byUsername.getPassword())) {
-            return false;
-        }
-        String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-
-        LocalDateTime now = LocalDateTime.now();
-        byUsername.setUpdatedTime(now);
-
-        byUsername.setPassword(hashed);
-        adminMapper.modifyPassword(byUsername);
-        return true;
-    }
-
-
-    // 更新管理员信息
-    @Override
-    public boolean updateAdminInfo(String username, String nickname, String email, String githubUrl, String bilibiliUrl, String giteeUrl) {
-        Admin byUsername = adminMapper.findByUsername(username);
-        if (byUsername == null) {
-            return false;
-        }
-
-        LocalDateTime now = LocalDateTime.now();
-
-        byUsername.setNickname(nickname);
-        byUsername.setEmail(email);
-        byUsername.setGithubUrl(githubUrl);
-        byUsername.setBilibiliUrl(bilibiliUrl);
-        byUsername.setGiteeUrl(giteeUrl);
-        byUsername.setUpdatedTime(now);
-        adminMapper.updateAdminInfo(byUsername);
-        return true;
-    }
-
-
-    // 获取管理员信息
-    @Override
-    public Admin getAdminInfo(String username) {
-        return adminMapper.findByUsername(username);
-    }
-
-
-    // 上传头像
-    @Override
-    public boolean uploadAvatar(String username, String avatar) {
-        Admin byUsername = adminMapper.findByUsername(username);
-        if (byUsername == null) {
-            return false;
-        }
-
-        LocalDateTime now = LocalDateTime.now();
-        byUsername.setAvatar(avatar);
-        byUsername.setUpdatedTime(now);
-        adminMapper.uploadAvatar(byUsername);
-        return true;
+    public AdminVo getInfo(Integer id) {
+        Admin admin = adminMapper.getById(id);
+        AdminVo adminVo = new AdminVo();
+        BeanUtils.copyProperties(admin, adminVo);
+        return adminVo;
     }
 }

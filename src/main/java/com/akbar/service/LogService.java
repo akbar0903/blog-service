@@ -1,6 +1,6 @@
 package com.akbar.service;
 
-import com.akbar.domain.vo.PageBean;
+import com.akbar.pojo.vo.PageBean;
 
 public interface LogService {
     PageBean getLogs(int pageNum, int pageSize);

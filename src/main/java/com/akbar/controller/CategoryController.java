@@ -1,7 +1,7 @@
 package com.akbar.controller;
 
 import com.akbar.annotation.LogAnno;
-import com.akbar.domain.entity.Category;
+import com.akbar.pojo.entity.Category;
 import com.akbar.service.CategoryService;
 import com.akbar.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;

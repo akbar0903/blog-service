@@ -1,7 +1,7 @@
 package com.akbar.service.impl;
 
-import com.akbar.domain.entity.Log;
-import com.akbar.domain.vo.PageBean;
+import com.akbar.pojo.entity.Log;
+import com.akbar.pojo.vo.PageBean;
 import com.akbar.mapper.LogMapper;
 import com.akbar.service.LogService;
 import com.github.pagehelper.Page;

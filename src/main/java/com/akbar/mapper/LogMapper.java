@@ -1,6 +1,6 @@
 package com.akbar.mapper;
 
-import com.akbar.domain.entity.Log;
+import com.akbar.pojo.entity.Log;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

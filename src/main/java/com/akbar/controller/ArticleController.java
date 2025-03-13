@@ -1,9 +1,9 @@
 package com.akbar.controller;
 
 import com.akbar.annotation.LogAnno;
-import com.akbar.domain.entity.Article;
-import com.akbar.domain.vo.ArticleResult;
-import com.akbar.domain.vo.PageBean;
+import com.akbar.pojo.entity.Article;
+import com.akbar.pojo.vo.ArticleResult;
+import com.akbar.pojo.vo.PageBean;
 import com.akbar.service.ArticleService;
 import com.akbar.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;

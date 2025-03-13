@@ -1,6 +1,6 @@
 package com.akbar.mapper;
 
-import com.akbar.domain.entity.Category;
+import com.akbar.pojo.entity.Category;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

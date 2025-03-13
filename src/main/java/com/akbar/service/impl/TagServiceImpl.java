@@ -1,6 +1,6 @@
 package com.akbar.service.impl;
 
-import com.akbar.domain.entity.Tag;
+import com.akbar.pojo.entity.Tag;
 import com.akbar.mapper.TagMapper;
 import com.akbar.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;

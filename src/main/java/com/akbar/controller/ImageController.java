@@ -1,7 +1,7 @@
 package com.akbar.controller;
 
 import com.akbar.annotation.LogAnno;
-import com.akbar.domain.vo.PageBean;
+import com.akbar.pojo.vo.PageBean;
 import com.akbar.service.ImageService;
 import com.akbar.util.AliyunOssUtil;
 import com.akbar.util.Result;

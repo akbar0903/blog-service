@@ -1,10 +1,9 @@
 package com.akbar.mapper;
 
-import com.akbar.domain.entity.Article;
-import com.akbar.domain.vo.ArticleResult;
+import com.akbar.pojo.entity.Article;
+import com.akbar.pojo.vo.ArticleResult;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

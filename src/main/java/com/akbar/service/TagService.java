@@ -1,6 +1,6 @@
 package com.akbar.service;
 
-import com.akbar.domain.entity.Tag;
+import com.akbar.pojo.entity.Tag;
 
 import java.util.List;
 

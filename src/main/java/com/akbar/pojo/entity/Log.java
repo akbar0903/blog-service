@@ -1,4 +1,4 @@
-package com.akbar.domain.entity;
+package com.akbar.pojo.entity;
 
 import java.time.LocalDateTime;
 

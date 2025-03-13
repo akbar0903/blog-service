@@ -1,6 +1,6 @@
 package com.akbar.mapper;
 
-import com.akbar.domain.entity.Image;
+import com.akbar.pojo.entity.Image;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

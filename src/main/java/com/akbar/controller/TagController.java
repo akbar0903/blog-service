@@ -1,7 +1,7 @@
 package com.akbar.controller;
 
 import com.akbar.annotation.LogAnno;
-import com.akbar.domain.entity.Tag;
+import com.akbar.pojo.entity.Tag;
 import com.akbar.service.TagService;
 import com.akbar.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;

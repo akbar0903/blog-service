@@ -1,25 +1,20 @@
 package com.akbar.service;
 
-import com.akbar.domain.entity.Admin;
-import jakarta.validation.constraints.NotBlank;
+import com.akbar.pojo.dto.admin.AdminLoginDto;
+import com.akbar.pojo.dto.admin.AdminUpdateDto;
+import com.akbar.pojo.dto.admin.PasswordEditDto;
+import com.akbar.pojo.entity.Admin;
+import com.akbar.pojo.vo.admin.AdminVo;
 
 public interface AdminService {
 
-    // 管理员注册
-    boolean registerAdmin(String username, String confirmPassword);
+    Admin loginAdmin(AdminLoginDto adminLoginDto);
 
-    // 管理员登录
-    boolean loginAdmin(String username, String password);
+    void updatePassword(PasswordEditDto passwordEditDto);
 
-    // 修改密码
-    boolean modifyPassword(String username, String oldPassword, String newPassword);
+    void updateInfo(AdminUpdateDto adminUpdateDto);
 
-    // 更新管理员信息
-    boolean updateAdminInfo(String username, String nickname, String email, String githubUrl, String bilibiliUrl, String giteeUrl);
+    void uploadAvatar(Integer id, String avatar);
 
-    // 获取管理员信息
-    Admin getAdminInfo(String username);
-
-    // 上传头像
-    boolean uploadAvatar(String username, String avatar);
+    AdminVo getInfo(Integer id);
 }

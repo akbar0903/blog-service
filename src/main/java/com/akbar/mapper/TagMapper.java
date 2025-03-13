@@ -1,6 +1,6 @@
 package com.akbar.mapper;
 
-import com.akbar.domain.entity.Tag;
+import com.akbar.pojo.entity.Tag;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

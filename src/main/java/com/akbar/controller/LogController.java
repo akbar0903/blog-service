@@ -1,6 +1,6 @@
 package com.akbar.controller;
 
-import com.akbar.domain.vo.PageBean;
+import com.akbar.pojo.vo.PageBean;
 import com.akbar.service.LogService;
 import com.akbar.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;

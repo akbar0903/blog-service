@@ -1,7 +1,7 @@
 package com.akbar.aop;
 
 import com.akbar.annotation.LogAnno;
-import com.akbar.domain.entity.Log;
+import com.akbar.pojo.entity.Log;
 import com.akbar.mapper.LogMapper;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;

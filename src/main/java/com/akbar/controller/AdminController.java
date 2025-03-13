@@ -1,16 +1,19 @@
 package com.akbar.controller;
 
-import com.akbar.annotation.LogAnno;
-import com.akbar.domain.entity.Admin;
+import com.akbar.constant.JwtClaimsConstant;
+import com.akbar.constant.MessageConstant;
+import com.akbar.pojo.dto.admin.AdminLoginDto;
+import com.akbar.pojo.dto.admin.AdminUpdateDto;
+import com.akbar.pojo.dto.admin.PasswordEditDto;
+import com.akbar.pojo.entity.Admin;
+import com.akbar.pojo.result.Result;
+import com.akbar.pojo.vo.admin.AdminVo;
+import com.akbar.properties.JwtProperties;
 import com.akbar.service.AdminService;
 import com.akbar.util.JwtUtil;
-import com.akbar.util.Result;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,163 +21,77 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
-@Validated
 public class AdminController {
 
-    private final AdminService adminService;
-
     @Autowired
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
-    }
-
-    // 管理员注册
-    @PostMapping("/register")
-    public Result<Void> register(
-            @RequestParam(value = "username")
-            @NotBlank(message = "用户名不能为空")
-            @Pattern(regexp = "^[a-zA-Z]{5,}$", message = "用户名必须是至少5个字母，并且只能包含英文字母")
-            String username,
-
-            @RequestParam(value = "password")
-            @NotBlank(message = "密码不能为空")
-            @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "密码必须包含字母和数字，且至少8个字符")
-            String password,
-
-            @RequestParam(value = "confirmPassword")
-            @NotBlank(message = "确认密码不能为空")
-            String confirmPassword) {
-
-        if (!password.equals(confirmPassword)) {
-            return Result.error("密码和确认密码不匹配！");
-        }
-
-        boolean result = adminService.registerAdmin(username, password);
-        if (!result) {
-            return Result.error("用户名已存在！");
-        }
-        return Result.success("注册成功！");
-    }
+    private AdminService adminService;
+    @Autowired
+    private JwtProperties jwtProperties;
 
 
-    // 管理员登录
+    /**
+     * 管理员登录
+     */
     @PostMapping("/login")
-    public Result<String> login(
-            @RequestParam(value = "username")
-            @NotBlank(message = "用户名不能为空")
-            String username,
+    public Result<String> login(@RequestBody @Valid AdminLoginDto adminLoginDto) {
+        Admin admin = adminService.loginAdmin(adminLoginDto);
 
-            @RequestParam(value = "password")
-            @NotBlank(message = "密码不能为空")
-            String password) {
-
-        boolean result = adminService.loginAdmin(username, password);
-        if (!result) {
-            return new Result<>(0, "用户名或密码错误！", null);
-        }
-
-        // 登陆成功，生成令牌，下发令牌
-        Admin admin = adminService.getAdminInfo(username);
+        // 生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id", admin.getId());
-        claims.put("username", admin.getUsername());
-        String token = JwtUtil.generateToken(claims);
+        claims.put(JwtClaimsConstant.ADMIN_ID, admin.getId());
+        String token = JwtUtil.generateJwt(
+                jwtProperties.getSecretKey(),
+                jwtProperties.getTTl(),
+                claims
+        );
 
-        return new Result<>(1, "登录成功！", token);
+        return Result.success(token);
     }
 
 
-    // 修改管理员密码
+    /**
+     * 修改管理员密码
+     */
     @PatchMapping
-    public Result<Void> modifyPassword(
-            @RequestParam(value = "username")
-            @NotBlank(message = "用户名不能为空！")
-            String username,
-
-            @RequestParam(value = "oldPassword")
-            @NotBlank(message = "旧密码不能为空！")
-            String oldPassword,
-
-            @RequestParam(value = "newPassword")
-            @NotBlank(message = "新密码不能为空！")
-            @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "密码必须包含字母和数字，且至少8个字符！")
-            String newPassword,
-
-            @RequestParam(value = "confirmPassword")
-            @NotBlank(message = "确认密码不能为空！")
-            String confirmPassword) {
-
-        if (!newPassword.equals(confirmPassword)) {
-            return Result.error("新密码和确认密码不匹配！");
-        }
-
-        boolean result = adminService.modifyPassword(username, oldPassword, newPassword);
-        if (!result) {
-            return Result.error("旧密码错误！");
-        }
-        return Result.success("密码修改成功！");
+    public Result<String> modifyPassword(@RequestBody @Valid PasswordEditDto passwordEditDto) {
+        adminService.updatePassword(passwordEditDto);
+        return Result.success();
     }
 
 
-    // 更新和完善管理员信息
-    @PatchMapping("/update-info")
-    @LogAnno(operationType = "更新管理员信息")
-    public Result<Void> updateAdminInfo(
-            @RequestParam(value = "username")
-            @NotBlank(message = "用户名不能为空！")
-            String username,
-
-            @RequestParam(value = "nickname", required = false)
-            String nickname,
-
-            @RequestParam(value = "email", required = false)
-            @Email(message = "邮箱格式不正确！")
-            String email,
-
-            @RequestParam(value = "githubUrl", required = false)
-            @URL(message = "GitHub地址格式不正确！")
-            String githubUrl,
-
-            @RequestParam(value = "bilibiliUrl", required = false)
-            @URL(message = "Bilibili地址格式不正确！")
-            String bilibiliUrl,
-
-            @RequestParam(value = "giteeUrl", required = false)
-            @URL(message = "Gitee地址格式不正确！")
-            String giteeUrl) {
-
-        boolean result = adminService.updateAdminInfo(username, nickname, email, githubUrl, bilibiliUrl, giteeUrl);
-        if (!result) {
-            return Result.error("更新失败！");
-        }
-        return Result.success("更新成功！");
+    /**
+     * 更新管理员信息
+     */
+    @PutMapping
+    public Result<AdminVo> modifyInfo(@RequestBody @Valid AdminUpdateDto adminUpdateDto) {
+        adminService.updateInfo(adminUpdateDto);
+        return Result.success();
     }
 
 
-    // 上传管理员头像
-    @PatchMapping("/update-avatar")
-    @LogAnno(operationType = "设置管理员头像")
-    public Result<Void> uploadAvatar(
-            @RequestParam(value = "username")
-            @NotBlank(message = "用户名不能为空！")
-            String username,
+    /**
+     * 上传管理员头像
+     */
+    @PatchMapping("/upload-avatar")
+    public Result<String> uploadAvatar(
+            @RequestParam
+            Integer id,
 
-            @RequestParam(value = "avatar")
-            @URL(message = "头像格式不正确！")
+            @RequestParam
+            @URL(message = MessageConstant.INVALID_URL)
             String avatar) {
 
-        boolean result = adminService.uploadAvatar(username, avatar);
-        if (!result) {
-            return Result.error("上传头像失败！");
-        }
-        return Result.success("上传头像成功！");
+        adminService.uploadAvatar(id, avatar);
+        return Result.success();
     }
 
 
-    // 获取管理员信息
+    /**
+     * 获取管理员信息
+     */
     @GetMapping("/info")
-    public Result<Admin> getAdminInfo(@RequestParam(value = "username") String username) {
-        Admin admin = adminService.getAdminInfo(username);
-        return Result.success(admin);
+    public Result<AdminVo> getInfo(@RequestParam Integer id) {
+        AdminVo adminVo = adminService.getInfo(id);
+        return Result.success(adminVo);
     }
 }

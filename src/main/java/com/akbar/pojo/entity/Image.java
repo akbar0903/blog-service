@@ -1,4 +1,4 @@
-package com.akbar.domain.entity;
+package com.akbar.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

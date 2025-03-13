@@ -1,6 +1,6 @@
-package com.akbar.domain.vo;
+package com.akbar.pojo.vo;
 
-import com.akbar.domain.entity.Article;
+import com.akbar.pojo.entity.Article;
 
 public class ArticleResult extends Article {
     private String categoryName;

@@ -1,6 +1,6 @@
 package com.akbar.service;
 
-import com.akbar.domain.entity.Category;
+import com.akbar.pojo.entity.Category;
 
 import java.util.List;
 

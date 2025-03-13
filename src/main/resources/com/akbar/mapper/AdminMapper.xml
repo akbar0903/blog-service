@@ -4,25 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.akbar.mapper.AdminMapper">
-    <insert id="register">
-        insert into tb_admin(username, password)
-        values (#{username}, #{password});
-    </insert>
-
-    <update id="updateAdminInfo">
-        update tb_admin set
-        <if test="nickname!= null">nickname = #{nickname},</if>
-        <if test="email!= null">email = #{email},</if>
-        <if test="githubUrl!= null">github_url = #{githubUrl},</if>
-        <if test="bilibiliUrl!= null">bilibili_url = #{bilibiliUrl},</if>
-        <if test="giteeUrl!= null">gitee_url = #{giteeUrl},</if>
-        <if test="updatedTime!= null">updated_time = #{updatedTime}</if>
-        where username = #{username}
-    </update>
-
-    <update id="uploadAvatar">
-        update tb_admin
-        set avatar = #{avatar}
-        where username = #{username}
+    <update id="update" parameterType="Admin">
+        update admin
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="username !=null">username = #{username},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="qqNumber != null">qq_number = #{qqNumber},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="githubUrl != null">github_url = #{githubUrl},</if>
+            <if test="bilibiliUrl != null">bilibili_url = #{bilibiliUrl},</if>
+            <if test="giteeUrl != null">gitee_url = #{giteeUrl},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime}</if>
+        </set>
+        where id = #{id}
     </update>
 </mapper>
