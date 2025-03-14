@@ -2,10 +2,12 @@ package com.akbar.controller;
 
 import com.akbar.annotation.LogAnno;
 import com.akbar.pojo.entity.Article;
-import com.akbar.pojo.vo.ArticleResult;
+import com.akbar.pojo.result.Result;
+import com.akbar.pojo.dto.ArticleDto;
+import com.akbar.pojo.vo.ArticleVO;
 import com.akbar.pojo.vo.PageBean;
 import com.akbar.service.ArticleService;
-import com.akbar.util.Result;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,26 +16,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/article")
 public class ArticleController {
 
-    private final ArticleService articleService;
     @Autowired
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
+    private ArticleService articleService;
 
-    // 添加文章
+
+    /**
+     * 添加文章
+     */
     @PostMapping
-    @LogAnno(operationType = "添加文章")
-    public Result<Void> addArticle(@RequestBody @Validated Article article) {
-        articleService.addArticle(article);
-        return Result.success("添加文章成功！");
+    public Result<Void> addArticle(@RequestBody @Valid ArticleDto articleDto) {
+        articleService.addArticle(articleDto);
+        return Result.success();
     }
 
 
-    // 回显文章
+    /**
+     * 回显文章信息
+     */
     @GetMapping("/info")
-    public Result<ArticleResult> getArticle(@RequestParam Integer id) {
-        ArticleResult articleResult = articleService.getArticle(id);
-        return Result.success(articleResult);
+    public Result<ArticleVO> getArticle(@RequestParam Integer id) {
+        ArticleVO articleVO = articleService.getArticleVo(id);
+        return Result.success(articleVO);
     }
 
 
@@ -43,7 +46,7 @@ public class ArticleController {
     public Result<Void> updateArticle(@PathVariable("id") Integer id,@RequestBody @Validated Article article) {
         article.setId(id);
         articleService.updateArticle(article);
-        return Result.success("更新文章成功！");
+        return Result.success();
     }
 
 
@@ -64,6 +67,6 @@ public class ArticleController {
     @LogAnno(operationType = "删除文章")
     public Result<Void> deleteArticle(@PathVariable("id") Integer id) {
         articleService.deleteArticle(id);
-        return Result.success("删除文章成功！");
+        return Result.success();
     }
 }

@@ -43,7 +43,6 @@ create table if not exists article(
                                       state tinyint not null default '0' comment '文章状态，0草稿，1发布',
                                       admin_id int unsigned not null comment '外键，管理员id',
                                       category_id int unsigned not null comment '外键,分类id',
-                                      tag_id int unsigned not null comment '外键，标签id',
                                       created_time datetime not null comment '创建时间',
                                       updated_time datetime not null comment '更新时间'
 );

@@ -1,39 +1,30 @@
-package com.akbar.pojo.entity;
+package com.akbar.pojo.vo;
 
-import com.akbar.constant.MessageConstant;
 import com.akbar.constant.TimeFormatConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.groups.Default;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Article {
+@Builder
+public class ArticleVO {
     private Integer id;
-
     private String title;
-
     private String summary;
-
     private String content;
-
     private String coverImage;
-
-    private Integer state;           // '1'：发布,'0'：草稿
-
-    private Integer adminId;
-
-    private Integer categoryId;
-
+    private Integer state;
+    private String categoryName;
+    private List<String> tagNames;
+    @JsonFormat(pattern = TimeFormatConstant.DATE_TIME_PATTERN)
     private LocalDateTime createdTime;
-
+    @JsonFormat(pattern = TimeFormatConstant.DATE_TIME_PATTERN)
     private LocalDateTime updatedTime;
 }

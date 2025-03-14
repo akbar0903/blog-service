@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public Category getCategory(Integer id) {
-        return categoryMapper.getById(id);
+        return categoryMapper.selectById(id);
     }
 
 

@@ -5,78 +5,50 @@
 
 <mapper namespace="com.akbar.mapper.ArticleMapper">
 
-    <insert id="addArticle">
-        insert into tb_article (title, summary, content, cover_image, state, admin_id, category_id, tag_id)
-        values (#{title}, #{summary}, #{content}, #{coverImage}, #{state}, #{adminId}, #{categoryId}, #{tagId});
+    <!--
+    useGeneratedKeys = true 告诉 MyBatis 使用数据库生成的自增主键。
+    keyProperty = "id" 指定将生成的主键值回填到 Article 对象的 id 属性中。
+    -->
+    <insert id="insert" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
+        insert into article (title, summary, content, cover_image, state, admin_id, category_id, created_time,
+                             updated_time)
+        values (#{title}, #{summary}, #{content}, #{coverImage}, #{state}, #{adminId}, #{categoryId}, #{createdTime},
+                #{updatedTime});
     </insert>
 
-    <select id="getById" resultType="com.akbar.pojo.vo.ArticleResult">
+
+    <!--回显文章信息-->
+    <resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVO">
+        <!-- 映射基本属性 -->
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="summary" column="summary"/>
+        <result property="content" column="content"/>
+        <result property="coverImage" column="cover_image"/>
+        <result property="state" column="state"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <!-- 映射 tagNames 集合，注意，所有result元素要在collection之前出现 -->
+        <collection property="tagNames" ofType="java.lang.String">
+            <result column="tag_name"/>
+        </collection>
+    </resultMap>
+    <select id="selectArticleVoById" resultType="com.akbar.pojo.vo.ArticleVO" resultMap="articleVoMap">
         select a.id,
                a.title,
                a.summary,
                a.content,
-               a.created_time as createdTime,
-               a.updated_time as updatedTime,
-               a.cover_image  as coverImage,
+               a.cover_image,
                a.state,
-               a.admin_id     as adminId,
-               a.category_id  as categoryId,
-               a.tag_id       as tagId,
-               c.name         as categoryName,
-               t.name         as tagName,
-               ad.username    as authorName
-        from tb_article a
-                 left join
-             tb_category c on a.category_id = c.id
-                 left join
-             tb_tag t on a.tag_id = t.id
-                 left join
-             tb_admin ad on a.admin_id = ad.id
-        where a.id = #{id};
-    </select>
-
-    <update id="updateArticle">
-        update tb_article
-        set title        = #{title},
-            summary      = #{summary},
-            content      = #{content},
-            cover_image  = #{coverImage},
-            state        = #{state},
-            admin_id     = #{adminId},
-            category_id  = #{categoryId},
-            tag_id       = #{tagId},
-            updated_time = #{updatedTime}
-        where id = #{id};
-    </update>
-
-    <select id="pageArticle" resultType="com.akbar.pojo.vo.ArticleResult">
-        select a.id,
-               a.title,
-               a.summary,
-               a.content,
-               a.created_time as createdTime,
-               a.updated_time as updatedTime,
-               a.cover_image  as coverImage,
-               a.state,
-               a.admin_id     as adminId,
-               a.category_id  as categoryId,
-               a.tag_id       as tagId,
-               c.name         as categoryName,
-               t.name         as tagName,
-               ad.username    as authorName
-        from tb_article a
-                 left join
-             tb_category c on a.category_id = c.id
-                 left join
-             tb_tag t on a.tag_id = t.id
-                 left join
-             tb_admin ad on a.admin_id = ad.id
-        <where>
-            <if test="title!= null and title != ''">title like concat('%', #{title}, '%')</if>
-            <if test="categoryId!= null and categoryId != ''">category_id = #{categoryId}</if>
-            <if test="tagId!= null and tagId != ''">tag_id = #{tagId}</if>
-            <if test="state!= null and state != ''">state = #{state}</if>
-        </where>
-        order by a.updated_time desc
+               c.name AS category_name,
+               t.name AS tag_name,
+               a.created_time,
+               a.updated_time
+        from article a
+                 left join category c on a.category_id = c.id
+                 left join article_tag at on a.id = at.article_id
+                 left join tag t on at.tag_id = t.id
+        where a.id = #{id}
     </select>
 </mapper>

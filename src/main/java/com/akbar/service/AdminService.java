@@ -4,12 +4,12 @@ import com.akbar.pojo.dto.AdminLoginDto;
 import com.akbar.pojo.dto.AdminUpdateDto;
 import com.akbar.pojo.dto.PasswordEditDto;
 import com.akbar.pojo.entity.Admin;
-import com.akbar.pojo.vo.admin.AdminVo;
+import com.akbar.pojo.vo.AdminVo;
 import jakarta.validation.Valid;
 
 public interface AdminService {
 
-    Admin loginAdmin(@Valid AdminLoginDto adminLoginDto);
+    Admin loginAdmin(AdminLoginDto adminLoginDto);
 
     void updatePassword(PasswordEditDto passwordEditDto);
 

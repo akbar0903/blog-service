@@ -1,4 +1,4 @@
-package com.akbar.pojo.vo.admin;
+package com.akbar.pojo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
