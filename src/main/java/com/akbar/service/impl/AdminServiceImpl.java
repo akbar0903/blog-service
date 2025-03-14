@@ -1,18 +1,22 @@
 package com.akbar.service.impl;
+import com.akbar.annotation.RequiresAdmin;
 import com.akbar.constant.MessageConstant;
 import com.akbar.exception.AccountNotFoundException;
 import com.akbar.exception.PasswordErrorException;
-import com.akbar.pojo.dto.admin.AdminLoginDto;
-import com.akbar.pojo.dto.admin.AdminUpdateDto;
-import com.akbar.pojo.dto.admin.PasswordEditDto;
+import com.akbar.pojo.dto.AdminLoginDto;
+import com.akbar.pojo.dto.AdminUpdateDto;
+import com.akbar.pojo.dto.PasswordEditDto;
 import com.akbar.pojo.entity.Admin;
 import com.akbar.mapper.AdminMapper;
 import com.akbar.pojo.vo.admin.AdminVo;
 import com.akbar.service.AdminService;
 import com.akbar.util.BCryptUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -25,7 +29,7 @@ public class AdminServiceImpl implements AdminService {
      * 管理员登录
      */
     @Override
-    public Admin loginAdmin(AdminLoginDto adminLoginDto) {
+    public Admin loginAdmin(@Valid AdminLoginDto adminLoginDto) {
         String username = adminLoginDto.getUsername();
         String password = adminLoginDto.getPassword();
 
@@ -46,6 +50,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 修改管理员密码
      */
+    @RequiresAdmin
     @Override
     public void updatePassword(PasswordEditDto passwordEditDto) {
         Integer id = passwordEditDto.getId();
@@ -63,6 +68,7 @@ public class AdminServiceImpl implements AdminService {
             throw new PasswordErrorException(MessageConstant.PASSWORDS_DIFFERENT);
         }
 
+        admin.setUpdatedTime(LocalDateTime.now());
 
         adminMapper.update(admin);
     }
@@ -71,10 +77,12 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 更新管理员信息
      */
+    @RequiresAdmin
     @Override
     public void updateInfo(AdminUpdateDto adminUpdateDto) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(adminUpdateDto, admin);
+        admin.setUpdatedTime(LocalDateTime.now());
         adminMapper.update(admin);
     }
 
@@ -82,11 +90,13 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 上传头像
      */
+    @RequiresAdmin
     @Override
     public void uploadAvatar(Integer id, String avatar) {
         Admin admin = new Admin();
         admin.setId(id);
         admin.setAvatar(avatar);
+        admin.setUpdatedTime(LocalDateTime.now());
 
         adminMapper.update(admin);
     }

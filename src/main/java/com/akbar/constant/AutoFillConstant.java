@@ -5,6 +5,6 @@ package com.akbar.constant;
  */
 public class AutoFillConstant {
     public static final String SET_CREATED_TIME = "setCreatedTime";
-    public static final String SET_UPDATE_TIME = "setUpdatedTime";
+    public static final String SET_UPDATED_TIME = "setUpdatedTime";
     public static final String SET_ADMIN_ID = "setAdminId";
 }

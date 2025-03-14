@@ -1,5 +1,6 @@
 package com.akbar.service.impl;
 
+import com.akbar.annotation.RequiresAdmin;
 import com.akbar.pojo.entity.Tag;
 import com.akbar.mapper.TagMapper;
 import com.akbar.service.TagService;
@@ -11,40 +12,57 @@ import java.util.List;
 @Service
 public class TagServiceImpl implements TagService {
 
-    private final TagMapper tagMapper;
-
     @Autowired
-    public TagServiceImpl(TagMapper tagMapper) {
-        this.tagMapper = tagMapper;
-    }
+    private TagMapper tagMapper;
 
+    /**
+     * 添加标签
+     */
+    @RequiresAdmin
     @Override
-    public void addTag(Tag tag) {
-        tagMapper.addTag(tag);
+    public void addTag(String name) {
+        Tag tag = new Tag();
+        tag.setName(name);
+        tagMapper.insert(tag);
     }
 
+
+    /**
+     * 更新标签信息
+     */
+    @RequiresAdmin
     @Override
-    public void updateTag(Tag tag) {
-        tagMapper.updateTag(tag);
+    public void updateTag(Integer id, String name) {
+        Tag tag = new Tag();
+        tag.setId(id);
+        tag.setName(name);
+        tagMapper.update(tag);
     }
 
+
+    /**
+     * 回显标签
+     */
     @Override
     public Tag getTag(Integer id) {
-        return tagMapper.getTag(id);
+        return tagMapper.getById(id);
     }
 
+    /**
+     * 删除标签
+     */
+    @RequiresAdmin
     @Override
     public void deleteTag(Integer id) {
-        tagMapper.deleteTag(id);
+        tagMapper.delete(id);
     }
 
+
+    /**
+     * 获取所有标签
+     */
     @Override
     public List<Tag> getTagList() {
-        return tagMapper.getTagList();
-    }
-
-    @Override
-    public List<Tag> searchTag(String name) {
-        return tagMapper.searchTag(name);
+        return tagMapper.list();
     }
 }

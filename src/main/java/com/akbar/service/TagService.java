@@ -5,15 +5,13 @@ import com.akbar.pojo.entity.Tag;
 import java.util.List;
 
 public interface TagService {
-    void addTag(Tag tag);
+    void addTag(String name);
 
-    void updateTag(Tag tag);
+    void updateTag(Integer id, String name);
 
     Tag getTag(Integer id);
 
     void deleteTag(Integer id);
 
     List<Tag> getTagList();
-
-    List<Tag> searchTag(String name);
 }

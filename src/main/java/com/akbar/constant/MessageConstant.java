@@ -12,4 +12,9 @@ public class MessageConstant {
     public static final String PASSWORD_CANT_BE_EMPTY = "密码不能为空";
     public static final String PASSWORD_TOO_SHORT = "密码必须大于等于6个字符";
     public static final String INVALID_URL = "url格式不准确";
+    public static final String TAG_NAME_CANT_BE_EMPTY = "标签名不能为空";
+    public static final int TAG_NAME_MAX_LENGTH = 20;
+    public static final String TAG_NAME_TOO_LONG = "标签名长度不能超过20个字符！";
+    public static final String PERMISSION_DENIED = "没有权限，拒绝操作";
+    public static final String USER_NOT_LOGIN = "用户未登录，请先登录";
 }

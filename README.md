@@ -104,3 +104,22 @@ default "Invalid password" 提供了一个默认值。如果你在使用注解�
 > payload() 用于为校验注解附加元数据（metadata），这些元数据可以被校验框架或应用程序读取。<br/>
 Class<? extends Payload>[] 表示一个实现了 Payload 接口的类数组。<br/>
 default {} 表示默认不携带任何元数据。<br/>
+**然后使用这个注解：**
+```java
+package com.akbar.pojo.dto.admin;
+
+import com.akbar.annotation.ValidPassword;
+import com.akbar.constant.MessageConstant;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class AdminLoginDto {
+
+    @NotBlank(message = MessageConstant.USERNAME_CANT_BE_EMPTY)
+    private String username;
+
+    @ValidPassword
+    private String password;
+}
+```

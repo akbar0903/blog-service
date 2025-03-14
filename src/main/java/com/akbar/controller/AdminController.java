@@ -2,9 +2,9 @@ package com.akbar.controller;
 
 import com.akbar.constant.JwtClaimsConstant;
 import com.akbar.constant.MessageConstant;
-import com.akbar.pojo.dto.admin.AdminLoginDto;
-import com.akbar.pojo.dto.admin.AdminUpdateDto;
-import com.akbar.pojo.dto.admin.PasswordEditDto;
+import com.akbar.pojo.dto.AdminLoginDto;
+import com.akbar.pojo.dto.AdminUpdateDto;
+import com.akbar.pojo.dto.PasswordEditDto;
 import com.akbar.pojo.entity.Admin;
 import com.akbar.pojo.result.Result;
 import com.akbar.pojo.vo.admin.AdminVo;
@@ -39,6 +39,7 @@ public class AdminController {
         // 生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.ADMIN_ID, admin.getId());
+        claims.put(JwtClaimsConstant.ROLE, admin.getRole());
         String token = JwtUtil.generateJwt(
                 jwtProperties.getSecretKey(),
                 jwtProperties.getTTl(),

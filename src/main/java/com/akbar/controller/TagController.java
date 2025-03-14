@@ -1,11 +1,12 @@
 package com.akbar.controller;
 
-import com.akbar.annotation.LogAnno;
+import com.akbar.constant.MessageConstant;
 import com.akbar.pojo.entity.Tag;
+import com.akbar.pojo.result.Result;
 import com.akbar.service.TagService;
-import com.akbar.util.Result;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,32 +15,43 @@ import java.util.List;
 @RequestMapping("/tag")
 public class TagController {
 
-    private final TagService tagService;
     @Autowired
-    public TagController(TagService tagService) {
-        this.tagService = tagService;
-    }
+    private TagService tagService;
 
-    // 添加标签
+
+    /**
+     * 添加标签
+     */
     @PostMapping
-    @LogAnno(operationType = "添加标签")
-    public Result<Void> addTag(@RequestBody @Validated Tag tag) {
-        tagService.addTag(tag);
-        return Result.success("添加标签成功！");
+    public Result<String> addTag(
+            @RequestParam
+            @NotBlank(message = MessageConstant.TAG_NAME_CANT_BE_EMPTY)
+            @Size(max = MessageConstant.TAG_NAME_MAX_LENGTH, message = MessageConstant.TAG_NAME_TOO_LONG)
+            String name) {
+        tagService.addTag(name);
+        return Result.success();
     }
 
 
-    // 修改标签
+    /**
+     * 更新标签
+     */
     @PutMapping("/{id}")
-    @LogAnno(operationType = "修改标签")
-    public Result<Void> updateTag(@PathVariable Integer id,@RequestBody @Validated Tag tag) {
-        tag.setId(id);
-        tagService.updateTag(tag);
-        return Result.success("修改标签成功！");
+    public Result<String> updateTag(
+            @PathVariable Integer id,
+
+            @RequestParam @NotBlank(message = MessageConstant.TAG_NAME_CANT_BE_EMPTY)
+            @Size(max = MessageConstant.TAG_NAME_MAX_LENGTH, message = MessageConstant.TAG_NAME_TOO_LONG)
+            String name) {
+
+        tagService.updateTag(id, name);
+        return Result.success();
     }
 
 
-    // 回显标签
+    /**
+     * 回显标签
+     */
     @GetMapping("/info")
     public Result<Tag> getTag(@RequestParam Integer id) {
         Tag tag = tagService.getTag(id);
@@ -47,27 +59,22 @@ public class TagController {
     }
 
 
-    // 删除标签
+    /**
+     * 删除标签
+     */
     @DeleteMapping("/{id}")
-    @LogAnno(operationType = "删除标签")
-    public Result<Void> deleteTag(@PathVariable Integer id) {
+    public Result<String> deleteTag(@PathVariable Integer id) {
         tagService.deleteTag(id);
-        return Result.success("删除标签成功！");
+        return Result.success();
     }
 
 
-    // 获取所有标签列表
+    /**
+     * 获取所有标签
+     */
     @GetMapping("/list")
     public Result<List<Tag>> getTagList() {
         List<Tag> tagList = tagService.getTagList();
-        return Result.success(tagList);
-    }
-
-
-    // 查询标签
-    @GetMapping("/search")
-    public Result<List<Tag>> searchTag(@RequestParam("name") String name) {
-        List<Tag> tagList = tagService.searchTag(name);
         return Result.success(tagList);
     }
 }

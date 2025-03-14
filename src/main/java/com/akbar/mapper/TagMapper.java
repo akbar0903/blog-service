@@ -1,5 +1,7 @@
 package com.akbar.mapper;
 
+import com.akbar.annotation.AutoFill;
+import com.akbar.enumeration.OperationType;
 import com.akbar.pojo.entity.Tag;
 import org.apache.ibatis.annotations.*;
 
@@ -8,21 +10,19 @@ import java.util.List;
 @Mapper
 public interface TagMapper {
 
-    @Insert("insert into tb_tag(name) values(#{name})")
-    void addTag(Tag tag);
+    @AutoFill(OperationType.INSERT)
+    @Insert("insert into tag(name, admin_id, created_time, updated_time) values(#{name}, #{adminId}, #{createdTime}, #{updatedTime})")
+    void insert(Tag tag);
 
-    @Update("update tb_tag set name = #{name} where id = #{id}")
-    void updateTag(Tag tag);
+    @AutoFill(OperationType.UPDATE)
+    void update(Tag tag);
 
-    @Select("select * from tb_tag where id = #{id}")
-    Tag getTag(Integer id);
+    @Select("select * from tag where id = #{id}")
+    Tag getById(Integer id);
 
-    @Delete("delete from tb_tag where id = #{id}")
-    void deleteTag(Integer id);
+    @Delete("delete from tag where id = #{id}")
+    void delete(Integer id);
 
-    @Select("select * from tb_tag")
-    List<Tag> getTagList();
-
-    @Select("select * from tb_tag where name like concat('%', #{name}, '%')")
-    List<Tag> searchTag(String name);
+    @Select("select * from tag")
+    List<Tag> list();
 }

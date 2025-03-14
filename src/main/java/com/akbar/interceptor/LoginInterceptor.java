@@ -36,8 +36,12 @@ public class LoginInterceptor implements HandlerInterceptor {
             log.info("jwt令牌：{}", token);
             Claims claims = JwtUtil.parseJwt(jwtProperties.getSecretKey(), token);
             Integer adminId = (Integer) claims.get(JwtClaimsConstant.ADMIN_ID);
+            String role = (String) claims.get(JwtClaimsConstant.ROLE);
+            log.info("adminId:{}", adminId);
+            log.info("role:{}", role);
             // 存储到ThreadLocal中
-            BaseContext.setCurrentId(adminId);
+            BaseContext.setCurrentAdminId(adminId);
+            BaseContext.setCurrentAdminRole(role);
             return true;
         } catch (Exception e) {
             response.setStatus(401);
@@ -58,6 +62,6 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        BaseContext.clearCurrentId();
+        BaseContext.clear();
     }
 }

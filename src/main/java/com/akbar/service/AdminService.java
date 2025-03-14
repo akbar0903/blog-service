@@ -1,14 +1,15 @@
 package com.akbar.service;
 
-import com.akbar.pojo.dto.admin.AdminLoginDto;
-import com.akbar.pojo.dto.admin.AdminUpdateDto;
-import com.akbar.pojo.dto.admin.PasswordEditDto;
+import com.akbar.pojo.dto.AdminLoginDto;
+import com.akbar.pojo.dto.AdminUpdateDto;
+import com.akbar.pojo.dto.PasswordEditDto;
 import com.akbar.pojo.entity.Admin;
 import com.akbar.pojo.vo.admin.AdminVo;
+import jakarta.validation.Valid;
 
 public interface AdminService {
 
-    Admin loginAdmin(AdminLoginDto adminLoginDto);
+    Admin loginAdmin(@Valid AdminLoginDto adminLoginDto);
 
     void updatePassword(PasswordEditDto passwordEditDto);
 
