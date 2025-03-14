@@ -17,4 +17,5 @@ public class MessageConstant {
     public static final String TAG_NAME_TOO_LONG = "标签名长度不能超过20个字符！";
     public static final String PERMISSION_DENIED = "没有权限，拒绝操作";
     public static final String USER_NOT_LOGIN = "用户未登录，请先登录";
+    public static final String TAG_HAS_ASSOCIATED_ARTICLES = "当前标签关联了文章，不能删除";
 }

@@ -10,7 +10,7 @@
         values (#{title}, #{summary}, #{content}, #{coverImage}, #{state}, #{adminId}, #{categoryId}, #{tagId});
     </insert>
 
-    <select id="getArticle" resultType="com.akbar.pojo.vo.ArticleResult">
+    <select id="getById" resultType="com.akbar.pojo.vo.ArticleResult">
         select a.id,
                a.title,
                a.summary,
