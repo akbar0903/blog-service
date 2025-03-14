@@ -1,5 +1,7 @@
 package com.akbar.mapper;
 
+import com.akbar.annotation.AutoFill;
+import com.akbar.enumeration.OperationType;
 import com.akbar.pojo.entity.Category;
 import org.apache.ibatis.annotations.*;
 
@@ -8,21 +10,19 @@ import java.util.List;
 @Mapper
 public interface CategoryMapper {
 
-    @Insert("insert into tb_category(name) values(#{name})")
-    void addCategory(Category category);
+    @AutoFill(OperationType.INSERT)
+    @Insert("insert into category(name, admin_id, created_time, updated_time) values(#{name}, #{adminId}, #{createdTime}, #{updatedTime})")
+    void insert(Category category);
 
-    @Select("select * from tb_category where id = #{id}")
-    Category getCategory(Integer id);
+    @Select("select * from category where id = #{id}")
+    Category getById(Integer id);
 
-    @Update("update tb_category set name = #{name}, updated_time= #{updatedTime} where id = #{id}")
-    void updateCategory(Category category);
+    @AutoFill(OperationType.UPDATE)
+    void update(Category category);
 
-    @Delete("delete from tb_category where id = #{id}")
-    void deleteCategory(Integer id);
+    @Delete("delete from category where id = #{id}")
+    void delete(Integer id);
 
-    @Select("select * from tb_category")
-    List<Category> getCategoryList();
-
-    @Select("select * from tb_category where name like concat('%', #{name}, '%')")
-    List<Category> searchCategory(String name);
+    @Select("select * from category")
+    List<Category> list();
 }

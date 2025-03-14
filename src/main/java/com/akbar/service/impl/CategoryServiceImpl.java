@@ -1,63 +1,82 @@
 package com.akbar.service.impl;
 
+import com.akbar.annotation.RequiresAdmin;
+import com.akbar.constant.MessageConstant;
+import com.akbar.exception.DeletionNotAllowedException;
+import com.akbar.mapper.ArticleMapper;
 import com.akbar.pojo.entity.Category;
 import com.akbar.mapper.CategoryMapper;
 import com.akbar.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryMapper categoryMapper;
     @Autowired
-    public CategoryServiceImpl(CategoryMapper categoryMapper) {
-        this.categoryMapper = categoryMapper;
-    }
+    private CategoryMapper categoryMapper;
 
-    // 新增分类
+    @Autowired
+    private ArticleMapper articleMapper;
+
+
+    /**
+     * 新增分类
+     */
+    @RequiresAdmin
     @Override
-    public void addCategory(Category category) {
-        categoryMapper.addCategory(category);
+    public void addCategory(String name) {
+        Category category = new Category();
+        category.setName(name);
+        categoryMapper.insert(category);
     }
 
 
-    // 回显分类
+    /**
+     * 回显分类
+     */
     @Override
     public Category getCategory(Integer id) {
-        return categoryMapper.getCategory(id);
+        return categoryMapper.getById(id);
     }
 
 
-    // 修改分类
+    /**
+     * 更新分类
+     */
+    @RequiresAdmin
     @Override
-    public void updateCategory(Category category) {
-        LocalDateTime now = LocalDateTime.now();
-        category.setUpdatedTime(now);
-        categoryMapper.updateCategory(category);
+    public void updateCategory(Integer id, String name) {
+        Category category = new Category();
+        category.setId(id);
+        category.setName(name);
+        categoryMapper.update(category);
     }
 
 
-    // 删除分类
+    /**
+     * 删除分类
+     */
+    @RequiresAdmin
     @Override
     public void deleteCategory(Integer id) {
-        categoryMapper.deleteCategory(id);
+        // 当前分类下有文章，不能删除
+        Integer count = articleMapper.countByCategoryId(id);
+        if (count > 0) {
+            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_HAS_ASSOCIATED_ARTICLES);
+        }
+
+        categoryMapper.delete(id);
     }
 
 
-    // 查询所有分类
+    /**
+     * 获取所有分类
+     */
     @Override
     public List<Category> getCategoryList() {
-        return categoryMapper.getCategoryList();
-    }
-
-
-    // 搜索分类
-    @Override
-    public List<Category> searchCategory(String name) {
-        return categoryMapper.searchCategory(name);
+        return categoryMapper.list();
     }
 }

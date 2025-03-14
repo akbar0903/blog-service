@@ -16,6 +16,10 @@ public class MessageConstant {
     public static final int TAG_NAME_MAX_LENGTH = 20;
     public static final String TAG_NAME_TOO_LONG = "标签名长度不能超过20个字符！";
     public static final String PERMISSION_DENIED = "没有权限，拒绝操作";
-    public static final String USER_NOT_LOGIN = "用户未登录，请先登录";
+    public static final String USER_NOT_LOGIN = "请先登录";
     public static final String TAG_HAS_ASSOCIATED_ARTICLES = "当前标签关联了文章，不能删除";
+    public static final String CATEGORY_NAME_CANT_BE_EMPTY = "分类名不能为空";
+    public static final int CATEGORY_NAME_MAX_LENGTH = 20;
+    public static final String CATEGORY_NAME_TOO_LONG = "分类名长度不能超过20个字符！";
+    public static final String CATEGORY_HAS_ASSOCIATED_ARTICLES = "当前分类关联了文章，不能删除";
 }

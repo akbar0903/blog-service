@@ -12,6 +12,7 @@ import com.akbar.properties.JwtProperties;
 import com.akbar.service.AdminService;
 import com.akbar.util.JwtUtil;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
 
     @Autowired
@@ -39,7 +41,7 @@ public class AdminController {
         // 生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.ADMIN_ID, admin.getId());
-        claims.put(JwtClaimsConstant.ROLE, admin.getRole());
+        claims.put(JwtClaimsConstant.ADMIN_ROLE, admin.getRole());
         String token = JwtUtil.generateJwt(
                 jwtProperties.getSecretKey(),
                 jwtProperties.getTTl(),
@@ -54,7 +56,7 @@ public class AdminController {
      * 修改管理员密码
      */
     @PatchMapping
-    public Result<String> modifyPassword(@RequestBody @Valid PasswordEditDto passwordEditDto) {
+    public Result<Void> modifyPassword(@RequestBody @Valid PasswordEditDto passwordEditDto) {
         adminService.updatePassword(passwordEditDto);
         return Result.success();
     }
@@ -64,7 +66,7 @@ public class AdminController {
      * 更新管理员信息
      */
     @PutMapping
-    public Result<AdminVo> modifyInfo(@RequestBody @Valid AdminUpdateDto adminUpdateDto) {
+    public Result<Void> modifyInfo(@RequestBody @Valid AdminUpdateDto adminUpdateDto) {
         adminService.updateInfo(adminUpdateDto);
         return Result.success();
     }
@@ -74,7 +76,7 @@ public class AdminController {
      * 上传管理员头像
      */
     @PatchMapping("/upload-avatar")
-    public Result<String> uploadAvatar(
+    public Result<Void> uploadAvatar(
             @RequestParam
             Integer id,
 

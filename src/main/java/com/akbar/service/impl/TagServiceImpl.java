@@ -43,7 +43,7 @@ public class TagServiceImpl implements TagService {
     @RequiresAdmin
     @Override
     public void updateTag(Integer id, String name) {
-        Tag tag = new Tag();
+        Tag tag = new Tag() ;
         tag.setId(id);
         tag.setName(name);
         tagMapper.update(tag);

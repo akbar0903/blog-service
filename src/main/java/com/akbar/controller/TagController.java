@@ -23,7 +23,7 @@ public class TagController {
      * 添加标签
      */
     @PostMapping
-    public Result<String> addTag(
+    public Result<Void> addTag(
             @RequestParam
             @NotBlank(message = MessageConstant.TAG_NAME_CANT_BE_EMPTY)
             @Size(max = MessageConstant.TAG_NAME_MAX_LENGTH, message = MessageConstant.TAG_NAME_TOO_LONG)
@@ -37,7 +37,7 @@ public class TagController {
      * 更新标签
      */
     @PutMapping("/{id}")
-    public Result<String> updateTag(
+    public Result<Void> updateTag(
             @PathVariable Integer id,
 
             @RequestParam @NotBlank(message = MessageConstant.TAG_NAME_CANT_BE_EMPTY)
@@ -63,7 +63,7 @@ public class TagController {
      * 删除标签
      */
     @DeleteMapping("/{id}")
-    public Result<String> deleteTag(@PathVariable Integer id) {
+    public Result<Void> deleteTag(@PathVariable Integer id) {
         tagService.deleteTag(id);
         return Result.success();
     }

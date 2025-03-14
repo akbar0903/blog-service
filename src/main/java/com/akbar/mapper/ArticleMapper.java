@@ -24,4 +24,7 @@ public interface ArticleMapper {
 
     @Select("select count(id) from article where tag_id = #{tagId}")
     Integer countByTagId(Integer tagId);
+
+    @Select("select count(id) from article where category_id = #{categoryId}")
+    Integer countByCategoryId(Integer categoryId);
 }

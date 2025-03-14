@@ -15,10 +15,11 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/admin/**", "/tag/**")
+                .addPathPatterns("/admin/**", "/tag/**", "/category/**")
                 .excludePathPatterns(
                         "/admin/login", "/admin/info",
-                        "/tag/list"
+                        "/tag/list",
+                        "/category/list"
                 );
     }
 }

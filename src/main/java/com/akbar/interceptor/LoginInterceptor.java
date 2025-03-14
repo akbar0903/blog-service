@@ -20,6 +20,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtProperties jwtProperties;
 
+
     /**
      * 校验有没有带jwt
      *
@@ -30,15 +31,17 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        // 判断拦截的是不是controller层的方法
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+
         String token = request.getHeader(jwtProperties.getTokenName());
 
         try {
-            log.info("jwt令牌：{}", token);
             Claims claims = JwtUtil.parseJwt(jwtProperties.getSecretKey(), token);
             Integer adminId = (Integer) claims.get(JwtClaimsConstant.ADMIN_ID);
-            String role = (String) claims.get(JwtClaimsConstant.ROLE);
-            log.info("adminId:{}", adminId);
-            log.info("role:{}", role);
+            String role = (String) claims.get(JwtClaimsConstant.ADMIN_ROLE);
             // 存储到ThreadLocal中
             BaseContext.setCurrentAdminId(adminId);
             BaseContext.setCurrentAdminRole(role);

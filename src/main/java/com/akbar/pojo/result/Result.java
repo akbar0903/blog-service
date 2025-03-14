@@ -23,10 +23,6 @@ public class Result<T> {
         return new Result<>(SUCCESS_CODE, "Success", data);
     }
 
-    public static <T> Result<T> success(String message) {
-        return new Result<>(SUCCESS_CODE, message, null);
-    }
-
     public static <T> Result<T> success() {
         return new Result<>(SUCCESS_CODE, "Success", null);
     }

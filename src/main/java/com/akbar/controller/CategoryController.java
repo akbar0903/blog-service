@@ -1,11 +1,12 @@
 package com.akbar.controller;
 
-import com.akbar.annotation.LogAnno;
+import com.akbar.constant.MessageConstant;
 import com.akbar.pojo.entity.Category;
+import com.akbar.pojo.result.Result;
 import com.akbar.service.CategoryService;
-import com.akbar.util.Result;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,22 +15,27 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
 
-    private final CategoryService categoryService;
     @Autowired
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private CategoryService categoryService;
 
-    // 新增分类
+
+    /**
+     * 新增分类
+     */
     @PostMapping
-    @LogAnno(operationType = "新增分类")
-    public Result<Void> addCategory(@RequestBody @Validated Category category) {
-        categoryService.addCategory(category);
-        return Result.success("新增分类成功！");
+    public Result<Void> addCategory(
+            @RequestParam
+            @NotBlank(message = MessageConstant.CATEGORY_NAME_CANT_BE_EMPTY)
+            @Size(max = MessageConstant.CATEGORY_NAME_MAX_LENGTH, message = MessageConstant.CATEGORY_NAME_TOO_LONG)
+            String name) {
+        categoryService.addCategory(name);
+        return Result.success();
     }
 
 
-    // 回显分类
+    /**
+     * 回显分类
+     */
     @GetMapping("/info")
     public Result<Category> getCategory(@RequestParam Integer id) {
         Category category = categoryService.getCategory(id);
@@ -37,37 +43,39 @@ public class CategoryController {
     }
 
 
-    // 修改分类
+    /**
+     * 更新分类
+     */
     @PutMapping("/{id}")
-    @LogAnno(operationType = "修改分类")
-    public Result<Void> updateCategory(@PathVariable Integer id, @RequestBody @Validated Category category) {
-        category.setId(id);
-        categoryService.updateCategory(category);
-        return Result.success("修改分类成功！");
+    public Result<Void> updateCategory(
+            @PathVariable Integer id,
+
+            @RequestParam
+            @NotBlank(message = MessageConstant.CATEGORY_NAME_CANT_BE_EMPTY)
+            @Size(max = MessageConstant.CATEGORY_NAME_MAX_LENGTH, message = MessageConstant.CATEGORY_NAME_TOO_LONG)
+            String name) {
+
+        categoryService.updateCategory(id, name);
+        return Result.success();
     }
 
 
-    // 删除分类
+    /**
+     * 删除分类
+     */
     @DeleteMapping("/{id}")
-    @LogAnno(operationType = "删除分类")
     public Result<Void> deleteCategory(@PathVariable Integer id) {
         categoryService.deleteCategory(id);
-        return Result.success("删除分类成功！");
+        return Result.success();
     }
 
 
-    // 获取分类列表
+    /**
+     * 获取所有分类
+     */
     @GetMapping("/list")
     public Result<List<Category>> getCategoryList() {
         List<Category> categoryList = categoryService.getCategoryList();
-        return Result.success(categoryList);
-    }
-
-
-    // 分类搜索
-    @GetMapping("/search")
-    public Result<List<Category>> searchCategory(@RequestParam(value = "name") String name) {
-        List<Category> categoryList = categoryService.searchCategory(name);
         return Result.success(categoryList);
     }
 }
