@@ -1,18 +1,19 @@
 package com.akbar.service;
 
-import com.akbar.pojo.entity.Article;
-import com.akbar.pojo.dto.ArticleDto;
+import com.akbar.pojo.dto.article.ArticlePageDto;
+import com.akbar.pojo.dto.article.ArticleUpdateDto;
+import com.akbar.pojo.dto.article.ArticleDto;
+import com.akbar.pojo.result.PageResult;
 import com.akbar.pojo.vo.ArticleVO;
-import com.akbar.pojo.vo.PageBean;
 
 public interface ArticleService {
     void addArticle(ArticleDto articleDto);
 
     ArticleVO getArticleVo(Integer id);
 
-    void updateArticle(Article article);
-
-    PageBean page(Integer pageNum, Integer pageSize, String title, Integer categoryId, Integer tagId, String state);
+    void updateArticle(ArticleUpdateDto articleUpdateDto);
 
     void deleteArticle(Integer id);
+
+    PageResult getArticleList(ArticlePageDto articlePageDto);
 }

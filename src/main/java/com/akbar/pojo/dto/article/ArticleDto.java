@@ -1,4 +1,4 @@
-package com.akbar.pojo.dto;
+package com.akbar.pojo.dto.article;
 
 import com.akbar.constant.MessageConstant;
 import com.akbar.pojo.entity.Article;

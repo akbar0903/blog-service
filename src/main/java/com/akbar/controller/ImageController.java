@@ -1,7 +1,6 @@
 package com.akbar.controller;
 
-import com.akbar.annotation.LogAnno;
-import com.akbar.pojo.vo.PageBean;
+import com.akbar.pojo.result.PageResult;
 import com.akbar.service.ImageService;
 import com.akbar.util.AliyunOssUtil;
 import com.akbar.util.Result;
@@ -28,7 +27,6 @@ public class ImageController {
 
     // 上传文件
     @PostMapping("/upload")
-    @LogAnno(operationType = "上传图片")
     public Result<String> upload(@RequestParam MultipartFile file) throws IOException {
 
         String originalFilename = file.getOriginalFilename();
@@ -53,7 +51,6 @@ public class ImageController {
 
     // 删除文件
     @PostMapping("/delete")
-    @LogAnno(operationType = "删除图片")
     public Result<Void> delete(@RequestParam String objectName) {
         // 从数据库删除
         boolean result = imageService.deleteImage(objectName);
@@ -68,8 +65,8 @@ public class ImageController {
 
     // 获取图片列表
     @GetMapping
-    public Result<PageBean> imageList(@RequestParam(defaultValue = "1") int pageNum,
-                                      @RequestParam(defaultValue = "10") int pageSize) {
+    public Result<PageResult> imageList(@RequestParam(defaultValue = "1") int pageNum,
+                                        @RequestParam(defaultValue = "10") int pageSize) {
         return Result.success(imageService.getImageList(pageNum, pageSize));
     }
 }

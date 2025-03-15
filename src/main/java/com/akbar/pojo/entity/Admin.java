@@ -1,10 +1,10 @@
 package com.akbar.pojo.entity;
 
+import com.akbar.constant.TimeFormatConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 
@@ -24,8 +24,8 @@ public class Admin {
     private String githubUrl;
     private String bilibiliUrl;
     private String giteeUrl;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = TimeFormatConstant.DATE_TIME_PATTERN)
     private LocalDateTime createdTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = TimeFormatConstant.DATE_TIME_PATTERN)
     private LocalDateTime updatedTime;
 }

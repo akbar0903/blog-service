@@ -51,4 +51,53 @@
                  left join tag t on at.tag_id = t.id
         where a.id = #{id}
     </select>
+
+
+    <!--文章分页查询-->
+    <select id="selectArticlePage" resultType="com.akbar.pojo.vo.ArticleVO" resultMap="articleVoMap">
+        select a.id,
+            a.title,
+            a.summary,
+            a.content,
+            a.cover_image,
+            a.state,
+            c.name AS category_name,
+            t.name AS tag_name,
+            a.created_time,
+            a.updated_time
+        from article a
+            left join category c on a.category_id = c.id
+            left join article_tag at on a.id = at.article_id
+            left join tag t on at.tag_id = t.id
+        where
+        1 = 1
+        <if test="categoryId != null">
+            and a.category_id = #{categoryId}
+        </if>
+        <if test="state != null">
+            and a.state = #{state}
+        </if>
+        <if test="title != null">
+            and a.title like concat('%', #{title}, '%')
+        </if>
+        order by
+        a.created_time desc
+    </select>
+
+
+    <update id="update" parameterType="Article">
+        update article
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="summary != null">summary = #{summary},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="adminId != null">admin_id = #{adminId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime}</if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

@@ -20,9 +20,6 @@ public interface TagMapper {
     @Select("select * from tag where id = #{id}")
     Tag selectById(Integer id);
 
-    @Select("select name from tag where id = #{id}")
-    String selectNameById(Integer id);
-
     @Delete("delete from tag where id = #{id}")
     void delete(Integer id);
 

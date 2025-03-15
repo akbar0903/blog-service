@@ -1,4 +1,4 @@
-package com.akbar.pojo.dto;
+package com.akbar.pojo.dto.admin;
 
 import com.akbar.constant.MessageConstant;
 import jakarta.validation.constraints.Email;

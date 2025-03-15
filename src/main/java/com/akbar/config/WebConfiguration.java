@@ -24,7 +24,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/admin/login", "/admin/info",
                         "/tag/list",
-                        "/category/list"
+                        "/category/list",
+                        "/article/list"
                 );
     }
 }

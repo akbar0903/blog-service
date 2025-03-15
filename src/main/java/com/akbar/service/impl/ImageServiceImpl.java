@@ -1,8 +1,8 @@
 package com.akbar.service.impl;
 
 import com.akbar.pojo.entity.Image;
-import com.akbar.pojo.vo.PageBean;
 import com.akbar.mapper.ImageMapper;
+import com.akbar.pojo.result.PageResult;
 import com.akbar.service.ImageService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -37,10 +37,10 @@ public class ImageServiceImpl implements ImageService {
 
 
     @Override
-    public PageBean getImageList(int pageNum, int pageSize) {
+    public PageResult getImageList(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Image> imageList = imageMapper.getImageList();
         Page<Image> page = (Page<Image>) imageList;
-        return new PageBean(page.getTotal(), page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }
