@@ -3,9 +3,9 @@ package com.akbar.service;
 import com.akbar.pojo.result.PageResult;
 
 public interface ImageService {
-    boolean addImage(String url, String objectName);
+    void addImage(String url, String objectName);
 
-    boolean deleteImage(String objectName);
+    void deleteImage(String objectName);
 
-    PageResult getImageList(int pageNum, int pageSize);
+    PageResult getImageList(Integer pageNum, Integer pageSize);
 }

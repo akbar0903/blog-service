@@ -19,7 +19,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                         "/admin/**",
                         "/tag/**",
                         "/category/**",
-                        "/article/**"
+                        "/article/**",
+                        "/image/**"
                 )
                 .excludePathPatterns(
                         "/admin/login", "/admin/info",

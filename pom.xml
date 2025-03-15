@@ -58,12 +58,7 @@
 			<version>0.4</version>
 		</dependency>
 
-		<!--日志，springboot默认使用logback-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-		</dependency>
-
+		<!--page-helper分页插件-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
@@ -91,12 +86,7 @@
 			<artifactId>jaxb-runtime</artifactId>
 			<version>2.3.3</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>2.0.52</version>
-		</dependency>
+		<!--aliyun-oss插件结束-->
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

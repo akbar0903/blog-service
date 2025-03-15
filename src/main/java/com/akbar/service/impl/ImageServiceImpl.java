@@ -1,46 +1,65 @@
 package com.akbar.service.impl;
 
+import com.akbar.annotation.RequiresAdmin;
+import com.akbar.context.BaseContext;
 import com.akbar.pojo.entity.Image;
 import com.akbar.mapper.ImageMapper;
 import com.akbar.pojo.result.PageResult;
 import com.akbar.service.ImageService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    private final ImageMapper imageMapper;
-
     @Autowired
-    public ImageServiceImpl(ImageMapper imageMapper) {
-        this.imageMapper = imageMapper;
+    private ImageMapper imageMapper;
+
+
+    /**
+     * 上传图片
+     */
+    @RequiresAdmin
+    @Override
+    public void addImage(String url, String objectName) {
+        Integer adminId = BaseContext.getCurrentAdminId();
+        Image image = Image.builder()
+                .url(url)
+                .objectName(objectName)
+                .adminId(adminId)
+                .uploadTime(LocalDateTime.now())
+                .build();
+
+        imageMapper.addImage(image);
     }
 
+
+    /**
+     * 删除图片
+     */
+    @RequiresAdmin
     @Override
-    public boolean addImage(String url, String objectName) {
-        Integer adminId = 9;
-        int result = imageMapper.addImage(url, objectName, adminId);
-        return result > 0;
+    public void deleteImage(String objectName) {
+        imageMapper.delete(objectName);
     }
 
 
+    /**
+     * 获取图片分页列表
+     */
     @Override
-    public boolean deleteImage(String objectName) {
-        int result = imageMapper.deleteImage(objectName);
-        return result > 0;
-    }
-
-
-    @Override
-    public PageResult getImageList(int pageNum, int pageSize) {
+    public PageResult getImageList(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Image> imageList = imageMapper.getImageList();
-        Page<Image> page = (Page<Image>) imageList;
-        return new PageResult(page.getTotal(), page.getResult());
+
+        List<Image> imageList = imageMapper.selectImagePage();
+
+        PageInfo<Image> pageInfo = new PageInfo<>(imageList);
+
+        return new PageResult(pageInfo.getTotal(), pageInfo.getList());
     }
 }

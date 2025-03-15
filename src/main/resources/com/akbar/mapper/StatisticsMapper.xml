@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.akbar.mapper.StatisticsMapper">
+    <resultMap id="statisticsMap" type="com.akbar.pojo.vo.StatisticsVO">
+        <result property="articleCount" column="article_count"/>
+        <result property="tagCount" column="tag_count"/>
+        <result property="categoryCount" column="category_count"/>
+        <result property="imageCount" column="image_count"/>
+    </resultMap>
+
+    <select id="getCounts" resultType="com.akbar.pojo.vo.StatisticsVO">
+        select
+            (select count(id) from article) as article_count,
+            (select count(id) from tag) as tag_count,
+            (select count(id) from category) as category_count,
+            (select count(id) from image) as image_count
+    </select>
+</mapper>

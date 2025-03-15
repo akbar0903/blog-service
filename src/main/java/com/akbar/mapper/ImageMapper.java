@@ -10,12 +10,12 @@ import java.util.List;
 
 @Mapper
 public interface ImageMapper {
-    @Insert(("insert into image(url, object_name,admin_id) values(#{url}, #{objectName}, #{adminId})"))
-    int addImage(String url, String objectName, Integer adminId);
+    @Insert(("insert into image(url, object_name,admin_id, upload_time) values(#{url}, #{objectName}, #{adminId}, #{uploadTime})"))
+    void addImage(Image image);
 
     @Delete("delete from image where object_name = #{objectName}")
-    int deleteImage(String objectName);
+    void delete(String objectName);
 
-    @Select("select * from image order by created_time desc")
-    List<Image> getImageList();
+    @Select("select * from image order by upload_time desc")
+    List<Image> selectImagePage();
 }

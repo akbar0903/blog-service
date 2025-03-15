@@ -1,6 +1,21 @@
 # 个人博客项目后端
 
-## 1.通过本项目我学到了
+## 1.技术栈
+- **spring-boot**
+- **aop**
+- **自定义注解**
+- **jbcrypt算法**
+- **pagehelper分页插件**
+- **数据库联表查询（多对多）**
+- **aliyun-oss文件上传**
+- **jwt令牌验证**
+- **lombok**
+
+## 3.前端链接
+- **gitee**：https://gitee.com/akbar-hotan/blog-ui
+- **github**：https://github.com/akbar0903/blog-ui
+
+## 3.通过本项目我学到了
 ### [1].定义复合校验注解
 
 自定义校验password的注解`ValidPassword`:
@@ -303,3 +318,13 @@ WHERE
 WHERE 1=1
 ```
 这是合法的sql语法
+
+### [5].限制上传文件大小
+spring默认multipart文件大小限制为1MB，我们可以在配置文件修改这个值
+```yaml
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB  # 默认是1MB
+```
+如果超过这个限制，给前端分会**413状态码**
