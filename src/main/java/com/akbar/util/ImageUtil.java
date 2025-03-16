@@ -1,6 +1,6 @@
 package com.akbar.util;
 
-public class ValidateImageExtension {
+public class ImageUtil {
 
     public static boolean isValidImageExtension(String originalFilename) {
         // 获取文件扩展名
