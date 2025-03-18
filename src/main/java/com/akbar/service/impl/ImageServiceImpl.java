@@ -12,7 +12,6 @@ import com.akbar.util.AliyunOssUtil;
 import com.akbar.util.ImageUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -41,7 +39,6 @@ public class ImageServiceImpl implements ImageService {
     public void addImage(MultipartFile file) throws IOException {
         //获取源文件名
         String originalFilename = file.getOriginalFilename();
-        System.out.println("---------------------"+originalFilename);
 
         // 校验文件扩展名
         boolean result = ImageUtil.isValidImageExtension(originalFilename);

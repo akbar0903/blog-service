@@ -3,7 +3,6 @@ package com.akbar.controller;
 import com.akbar.pojo.result.PageResult;
 import com.akbar.pojo.result.Result;
 import com.akbar.service.ImageService;
-import com.akbar.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
