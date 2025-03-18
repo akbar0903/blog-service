@@ -1,6 +1,8 @@
 package com.akbar.service.impl;
 import com.akbar.annotation.RequiresAdmin;
 import com.akbar.constant.MessageConstant;
+import com.akbar.constant.RoleConstant;
+import com.akbar.context.BaseContext;
 import com.akbar.exception.AccountNotFoundException;
 import com.akbar.exception.PasswordErrorException;
 import com.akbar.pojo.dto.admin.AdminLoginDto;
@@ -103,11 +105,24 @@ public class AdminServiceImpl implements AdminService {
 
 
     /**
-     * 获取管理员信息
+     * 根据当前登录用户id获取管理员信息
      */
     @Override
-    public AdminVo getInfo(Integer id) {
-        Admin admin = adminMapper.getById(id);
+    public AdminVo getCurrentAdminInfo() {
+        Integer adminId = BaseContext.getCurrentAdminId();
+        Admin admin = adminMapper.getById(adminId);
+        AdminVo adminVo = new AdminVo();
+        BeanUtils.copyProperties(admin, adminVo);
+        return adminVo;
+    }
+
+
+    /**
+     * 直接获取admin信息
+     */
+    @Override
+    public AdminVo getInfo() {
+        Admin admin = adminMapper.getAdmin(RoleConstant.ADMIN_ROLE);
         AdminVo adminVo = new AdminVo();
         BeanUtils.copyProperties(admin, adminVo);
         return adminVo;

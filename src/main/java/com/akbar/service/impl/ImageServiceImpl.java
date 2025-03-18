@@ -10,8 +10,10 @@ import com.akbar.pojo.result.PageResult;
 import com.akbar.service.ImageService;
 import com.akbar.util.AliyunOssUtil;
 import com.akbar.util.ImageUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ImageServiceImpl implements ImageService {
 
@@ -38,6 +41,7 @@ public class ImageServiceImpl implements ImageService {
     public void addImage(MultipartFile file) throws IOException {
         //获取源文件名
         String originalFilename = file.getOriginalFilename();
+        System.out.println("---------------------"+originalFilename);
 
         // 校验文件扩展名
         boolean result = ImageUtil.isValidImageExtension(originalFilename);
@@ -45,8 +49,11 @@ public class ImageServiceImpl implements ImageService {
             throw new FileUploadException(MessageConstant.INVALID_IMAGE_EXTENSION);
         }
 
+        // 压缩图片到500KB以下
+        MultipartFile multipartFile = ImageUtil.compressImage(file);
+
         // 上传到oss
-        String url = aliyunOssUtil.upload(file);
+        String url = aliyunOssUtil.upload(multipartFile);
 
         // 获取上传后文件的object-name
         String objectName = aliyunOssUtil.getObjectName(url);
@@ -81,12 +88,11 @@ public class ImageServiceImpl implements ImageService {
      */
     @Override
     public PageResult getImageList(Integer pageNum, Integer pageSize) {
+        // 开启分页
         PageHelper.startPage(pageNum, pageSize);
 
-        List<Image> imageList = imageMapper.selectImagePage();
+        Page<Image> page = (Page<Image>) imageMapper.selectImagePage();
 
-        PageInfo<Image> pageInfo = new PageInfo<>(imageList);
-
-        return new PageResult(pageInfo.getTotal(), pageInfo.getList());
+        return new PageResult(page.getTotal(), page.getResult());
     }
 }

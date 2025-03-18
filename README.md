@@ -196,7 +196,7 @@ public ArticleVO getArticle(Integer id) {
 
 ```xml
 <!--回显文章信息-->
-<resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVO">
+<resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVo">
     <!-- 映射基本属性 -->
     <id property="id" column="id"/>
     <result property="title" column="title"/>
@@ -212,83 +212,84 @@ public ArticleVO getArticle(Integer id) {
         <result column="tag_name"/>
     </collection>
 </resultMap>
-<select id="selectArticleVoById" resultType="com.akbar.pojo.vo.ArticleVO" resultMap="articleVoMap">
-    select 
-        a.id,
-        a.title,
-        a.summary,
-        a.content,
-        a.cover_image,
-        a.state,
-        c.name AS category_name,
-        t.name AS tag_name,
-        a.created_time,
-        a.updated_time
-    from 
-        article a
-    left join
-        category c on a.category_id = c.id
-    left join
-        article_tag at on a.id = at.article_id
-    left join
-        tag t on at.tag_id = t.id
-    where a.id = #{id}
+<select id="selectArticleVoById" resultType="com.akbar.pojo.vo.ArticleVo" resultMap="articleVoMap">
+select
+a.id,
+a.title,
+a.summary,
+a.content,
+a.cover_image,
+a.state,
+c.name AS category_name,
+t.name AS tag_name,
+a.created_time,
+a.updated_time
+from
+article a
+left join
+category c on a.category_id = c.id
+left join
+article_tag at on a.id = at.article_id
+left join
+tag t on at.tag_id = t.id
+where a.id = #{id}
 </select>
 ```
 ### [4].文章分页查询
+
 ```xml
     <!--回显文章信息-->
-    <resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVO">
-        <!-- 映射基本属性 -->
-        <id property="id" column="id"/>
-        <result property="title" column="title"/>
-        <result property="summary" column="summary"/>
-        <result property="content" column="content"/>
-        <result property="coverImage" column="cover_image"/>
-        <result property="state" column="state"/>
-        <result property="categoryName" column="category_name"/>
-        <result property="createdTime" column="created_time"/>
-        <result property="updatedTime" column="updated_time"/>
-        <!-- 映射 tagNames 集合，注意，所有result元素要在collection之前出现 -->
-        <collection property="tagNames" ofType="java.lang.String">
-            <result column="tag_name"/>
-        </collection>
-    </resultMap>
+<resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVo">
+    <!-- 映射基本属性 -->
+    <id property="id" column="id"/>
+    <result property="title" column="title"/>
+    <result property="summary" column="summary"/>
+    <result property="content" column="content"/>
+    <result property="coverImage" column="cover_image"/>
+    <result property="state" column="state"/>
+    <result property="categoryName" column="category_name"/>
+    <result property="createdTime" column="created_time"/>
+    <result property="updatedTime" column="updated_time"/>
+    <!-- 映射 tagNames 集合，注意，所有result元素要在collection之前出现 -->
+    <collection property="tagNames" ofType="java.lang.String">
+        <result column="tag_name"/>
+    </collection>
+</resultMap>
 
         <!--文章分页查询-->
-<select id="selectArticlePage" resultType="com.akbar.pojo.vo.ArticleVO" resultMap="articleVoMap">
-    select
-        a.id,
-        a.title,
-        a.summary,
-        a.content,
-        a.cover_image,
-        a.state,
-        c.name AS category_name,
-        t.name AS tag_name,
-        a.created_time,
-        a.updated_time
-    from
-        article a
-    left join
-        category c on a.category_id = c.id
-    left join
-        article_tag at on a.id = at.article_id
-    left join
-        tag t on at.tag_id = t.id
-    where
-        1 = 1
-        <if test="categoryId != null">
-            and a.category_id = #{categoryId}
-        </if>
-        <if test="state != null">
-            and a.state = #{state}
-        </if>
-        <if test="title != null">
-            and a.title like concat('%', #{title}, '%')
-        </if>
-    order by
-        a.created_time desc
+<select id="selectArticlePage" resultType="com.akbar.pojo.vo.ArticleVo" resultMap="articleVoMap">
+select
+a.id,
+a.title,
+a.summary,
+a.content,
+a.cover_image,
+a.state,
+c.name AS category_name,
+t.name AS tag_name,
+a.created_time,
+a.updated_time
+from
+article a
+left join
+category c on a.category_id = c.id
+left join
+article_tag at on a.id = at.article_id
+left join
+tag t on at.tag_id = t.id
+where
+1 = 1
+<if test="categoryId != null">
+    and a.category_id = #{categoryId}
+</if>
+<if test="state != null">
+    and a.state = #{state}
+</if>
+<if test="title != null">
+    and a.title like concat('%', #{title}, '%')
+</if>
+order by
+a.created_time desc
 </select>
 ```
 **为什么where条件中使用`1 = 1`?**<br/>

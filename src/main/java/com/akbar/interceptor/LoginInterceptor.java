@@ -42,6 +42,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             Claims claims = JwtUtil.parseJwt(jwtProperties.getSecretKey(), token);
             Integer adminId = (Integer) claims.get(JwtClaimsConstant.ADMIN_ID);
             String role = (String) claims.get(JwtClaimsConstant.ADMIN_ROLE);
+            log.info("adminId:" + adminId);
+            log.info("role:" + role);
+            log.info("token:" + token);
             // 存储到ThreadLocal中
             BaseContext.setCurrentAdminId(adminId);
             BaseContext.setCurrentAdminRole(role);

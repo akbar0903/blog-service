@@ -16,9 +16,8 @@
                 #{updatedTime});
     </insert>
 
-
-    <!--回显文章信息-->
-    <resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVO">
+    <!--定义映射-->
+    <resultMap id="articleVoMap" type="com.akbar.pojo.vo.ArticleVo">
         <!-- 映射基本属性 -->
         <id property="id" column="id"/>
         <result property="title" column="title"/>
@@ -34,7 +33,9 @@
             <result column="tag_name"/>
         </collection>
     </resultMap>
-    <select id="selectArticleVoById" resultType="com.akbar.pojo.vo.ArticleVO" resultMap="articleVoMap">
+
+    <!--回显文章信息-->
+    <select id="selectArticleVoById" resultType="com.akbar.pojo.vo.ArticleVo" resultMap="articleVoMap">
         select a.id,
                a.title,
                a.summary,
@@ -52,23 +53,13 @@
         where a.id = #{id}
     </select>
 
-
-    <!--文章分页查询-->
-    <select id="selectArticlePage" resultType="com.akbar.pojo.vo.ArticleVO" resultMap="articleVoMap">
-        select a.id,
-            a.title,
-            a.summary,
-            a.content,
-            a.cover_image,
-            a.state,
-            c.name AS category_name,
-            t.name AS tag_name,
-            a.created_time,
-            a.updated_time
-        from article a
-            left join category c on a.category_id = c.id
-            left join article_tag at on a.id = at.article_id
-            left join tag t on at.tag_id = t.id
+    <!--根据查询条件获取文章id列表-->
+    <select id="selectArticleIds" resultType="java.lang.Integer">
+        select
+        a.id
+        from
+        article a
+        left join category c on a.category_id = c.id
         where
         1 = 1
         <if test="categoryId != null">
@@ -82,6 +73,29 @@
         </if>
         order by
         a.created_time desc
+    </select>
+
+    <!--根据文章id列表分页查询文章信息-->
+    <select id="selectArticleByIds" resultType="com.akbar.pojo.vo.ArticleVo" resultMap="articleVoMap">
+        select a.id,
+               a.title,
+               a.summary,
+               a.content,
+               a.cover_image,
+               a.state,
+               a.created_time,
+               a.updated_time,
+               c.name as category_name,
+               t.name as tag_name
+        from article a
+        left join category c on a.category_id = c.id
+        left join article_tag at on a.id = at.article_id
+        left join tag t on at.tag_id = t.id
+        where a.id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by a.created_time desc
     </select>
 
 

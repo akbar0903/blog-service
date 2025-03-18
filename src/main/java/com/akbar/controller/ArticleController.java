@@ -5,14 +5,16 @@ import com.akbar.pojo.dto.article.ArticleUpdateDto;
 import com.akbar.pojo.result.PageResult;
 import com.akbar.pojo.result.Result;
 import com.akbar.pojo.dto.article.ArticleDto;
-import com.akbar.pojo.vo.ArticleVO;
+import com.akbar.pojo.vo.ArticleVo;
 import com.akbar.service.ArticleService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/article")
+@Slf4j
 public class ArticleController {
 
     @Autowired
@@ -33,8 +35,8 @@ public class ArticleController {
      * 回显文章信息
      */
     @GetMapping("/info")
-    public Result<ArticleVO> getArticle(@RequestParam Integer id) {
-        ArticleVO articleVO = articleService.getArticleVo(id);
+    public Result<ArticleVo> getArticle(@RequestParam Integer id) {
+        ArticleVo articleVO = articleService.getArticleVo(id);
         return Result.success(articleVO);
     }
 
@@ -62,8 +64,9 @@ public class ArticleController {
     /**
      * 分页获取文章列表
      */
-    @GetMapping("/list")
+    @PostMapping("/list")
     public Result<PageResult> list(@RequestBody ArticlePageDto articlePageDto) {
+        System.out.println("--------------"+articlePageDto.toString());
         PageResult pageResult = articleService.getArticleList(articlePageDto);
         return Result.success(pageResult);
     }

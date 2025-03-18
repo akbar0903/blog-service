@@ -1,7 +1,7 @@
 package com.akbar.service;
 
-import com.akbar.pojo.vo.StatisticsVO;
+import com.akbar.pojo.vo.StatisticsVo;
 
 public interface StatisticsService {
-    StatisticsVO getStatistics();
+    StatisticsVo getStatistics();
 }

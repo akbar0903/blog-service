@@ -90,11 +90,21 @@ public class AdminController {
 
 
     /**
-     * 获取管理员信息
+     * 根据当前登录用户id获取管理员信息
+     */
+    @GetMapping("/current-admin-info")
+    public Result<AdminVo> getCurrentAdminInfo() {
+        AdminVo adminVo = adminService.getCurrentAdminInfo();
+        return Result.success(adminVo);
+    }
+
+
+    /**
+     * 直接获取管理员信息
      */
     @GetMapping("/info")
-    public Result<AdminVo> getInfo(@RequestParam Integer id) {
-        AdminVo adminVo = adminService.getInfo(id);
+    public Result<AdminVo> getInfo() {
+        AdminVo adminVo = adminService.getInfo();
         return Result.success(adminVo);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ArticleVO {
+public class ArticleVo {
     private Integer id;
     private String title;
     private String summary;

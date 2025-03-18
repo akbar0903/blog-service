@@ -14,4 +14,7 @@ public interface AdminMapper {
     Admin getById(Integer id);
 
     void update(Admin admin);
+
+    @Select("select * from admin where role = #{role}")
+    Admin getAdmin(String role);
 }

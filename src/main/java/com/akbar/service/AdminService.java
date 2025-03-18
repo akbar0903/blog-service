@@ -16,5 +16,7 @@ public interface AdminService {
 
     void uploadAvatar(Integer id, String avatar);
 
-    AdminVo getInfo(Integer id);
+    AdminVo getCurrentAdminInfo();
+
+    AdminVo getInfo();
 }

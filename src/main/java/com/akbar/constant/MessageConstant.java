@@ -56,5 +56,5 @@ public class MessageConstant {
     public static final String INVALID_IMAGE_EXTENSION = "当前图片格式不支持上传";
 
     // MaxUploadSize
-    public static final String FILE_SIZE_TOO_LARGE = "文件上传大小超过限制，最大允许1MB";
+    public static final String FILE_SIZE_TOO_LARGE = "文件上传大小超过限制，最大允许10MB";
 }

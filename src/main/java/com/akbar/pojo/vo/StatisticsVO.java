@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatisticsVO {
+public class StatisticsVo {
     private Integer articleCount;
     private Integer categoryCount;
     private Integer tagCount;

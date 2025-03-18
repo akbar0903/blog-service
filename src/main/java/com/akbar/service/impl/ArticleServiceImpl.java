@@ -8,17 +8,20 @@ import com.akbar.pojo.entity.Article;
 import com.akbar.pojo.dto.article.ArticleDto;
 import com.akbar.pojo.entity.ArticleTag;
 import com.akbar.pojo.result.PageResult;
-import com.akbar.pojo.vo.ArticleVO;
+import com.akbar.pojo.vo.ArticleVo;
 import com.akbar.mapper.ArticleMapper;
 import com.akbar.service.ArticleService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
@@ -42,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
         //插入文章-标签关系
         //因为插入article产生的主键可以回到article对象中，这里可以直接使用
         Integer articleId = article.getId();
-        for(Integer tagId : articleDto.getTagIds()) {
+        for (Integer tagId : articleDto.getTagIds()) {
             ArticleTag articleTag = new ArticleTag(articleId, tagId);
             articleTagMapper.insert(articleTag);
         }
@@ -53,7 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
      * 回显文章信息
      */
     @Override
-    public ArticleVO getArticleVo(Integer id) {
+    public ArticleVo getArticleVo(Integer id) {
         return articleMapper.selectArticleVoById(id);
     }
 
@@ -74,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         // 插入新的标签关联
         List<Integer> tagIds = articleUpdateDto.getTagIds();
-        for(Integer tagId : tagIds) {
+        for (Integer tagId : tagIds) {
             ArticleTag articleTag = new ArticleTag(article.getId(), tagId);
             articleTagMapper.insert(articleTag);
         }
@@ -102,15 +105,29 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public PageResult getArticleList(ArticlePageDto articlePageDto) {
-        // 设置分页参数
+        // 第一步：只查询文章id（带条件）
         PageHelper.startPage(articlePageDto.getPageNum(), articlePageDto.getPageSize());
+        List<Integer> tempList = articleMapper.selectArticleIds(
+                articlePageDto.getTitle(),
+                articlePageDto.getCategoryId(),
+                articlePageDto.getState()
+        );
 
-        // 执行查询
-        List<ArticleVO> articleList = articleMapper.selectArticlePage(articlePageDto);
+        // 强制转换为PageHelper对象
+        Page<Integer> page = (Page<Integer>) tempList;
 
-        // 封装分页结果
-        PageInfo<ArticleVO> pageInfo = new PageInfo<>(articleList);
+        // 提取id集合
+        List<Integer> articleIds = new ArrayList<>();
+        for (Object object : page.getResult()) {
+            if (object instanceof Integer id) {
+                articleIds.add(id);
+            }
+        }
 
-        return new PageResult(pageInfo.getTotal(), pageInfo.getList());
+        // 第二步：根据id集合查询完整数据
+        List<ArticleVo> list = articleMapper.selectArticleByIds(articleIds);
+
+        // 构建分页结果
+        return new PageResult(page.getTotal(), list);
     }
 }
