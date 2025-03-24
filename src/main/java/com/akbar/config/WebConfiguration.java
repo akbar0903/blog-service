@@ -20,13 +20,15 @@ public class WebConfiguration implements WebMvcConfigurer {
                         "/tag/**",
                         "/category/**",
                         "/article/**",
-                        "/image/**"
+                        "/image/**",
+                        "/feature-plan/**"
                 )
                 .excludePathPatterns(
                         "/admin/login", "/admin/info",
                         "/tag/list",
                         "/category/list",
-                        "/article/list"
+                        "/article/list",
+                        "/feature-plan/list"
                 );
     }
 }

@@ -1,6 +1,8 @@
 create database if not exists blog;
 use blog;
 
+# 统一使用逻辑外键
+
 create table if not exists admin(
                                     id int unsigned auto_increment primary key comment '主键',
                                     name varchar(32) comment '管理员昵称',
@@ -40,7 +42,7 @@ create table if not exists article(
                                       summary text not null comment '文章摘要',
                                       content longtext not null comment '文章内容',
                                       cover_image varchar(255) comment '文章封面',
-                                      state tinyint not null default '0' comment '文章状态，0草稿，1发布',
+                                      state tinyint not null default 0 comment '文章状态，0草稿，1发布',
                                       admin_id int unsigned not null comment '外键，管理员id',
                                       category_id int unsigned not null comment '外键,分类id',
                                       created_time datetime not null comment '创建时间',
@@ -55,9 +57,21 @@ create table if not exists article_tag(
 );
 
 create table if not exists image(
-                                    id int unsigned auto_increment primary key comment '图片id',
+                                    id int unsigned auto_increment primary key comment '主键',
                                     url varchar(255) not null unique comment '图片url',
                                     object_name varchar(255) not null unique comment '图片名',
                                     admin_id int unsigned not null comment '管理员id',
                                     upload_time datetime not null comment '上传时间'
+);
+
+# todolist
+create table if not exists to_do(
+                                    id int unsigned auto_increment primary key comment '主键',
+                                    title varchar(100) not null unique comment '任务名称',
+                                    type varchar(20) not null comment '任务类型',
+                                    is_completed tinyint not null default 0 comment '是否已完成，0：未完成，1已完成',
+                                    completed_time datetime null comment '完成时间',
+                                    admin_id int unsigned not null comment '管理员id',
+                                    created_time datetime not null comment '创建时间',
+                                    updated_time datetime not null comment '更新时间'
 );

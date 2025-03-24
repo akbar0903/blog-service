@@ -57,4 +57,8 @@ public class MessageConstant {
 
     // MaxUploadSize
     public static final String FILE_SIZE_TOO_LARGE = "文件上传大小超过限制，最大允许10MB";
+
+    // FeaturePlan
+    public static final String TO_DO_TITLE_CANT_BE_EMPTY = "任务标题不能为空";
+    public static final String TO_DO_TYPE_CANT_BE_EMPTY = "任务类型不能为空";
 }

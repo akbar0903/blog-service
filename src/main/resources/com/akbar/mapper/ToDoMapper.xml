@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.akbar.mapper.ToDoMapper">
+
+    <update id="update" parameterType="ToDo">
+        update feature_plan
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="isCompleted != null">is_completed = #{isCompleted},</if>
+            <if test="completedTime != null">completed_time = #{completedTime},</if>
+            <if test="adminId != null">admin_id = #{adminId},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

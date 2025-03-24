@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -122,6 +123,10 @@ public class ArticleServiceImpl implements ArticleService {
             if (object instanceof Integer id) {
                 articleIds.add(id);
             }
+        }
+
+        if (articleIds.isEmpty()) {
+            return new PageResult(0L, Collections.emptyList());
         }
 
         // 第二步：根据id集合查询完整数据

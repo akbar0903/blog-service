@@ -91,10 +91,12 @@
         left join category c on a.category_id = c.id
         left join article_tag at on a.id = at.article_id
         left join tag t on at.tag_id = t.id
-        where a.id in
-        <foreach item="id" collection="list" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        <if test="list != null and list.size() > 0">
+            where a.id in
+            <foreach item="id" collection="list" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
         order by a.created_time desc
     </select>
 
