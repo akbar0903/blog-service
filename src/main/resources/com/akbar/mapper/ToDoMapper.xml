@@ -5,10 +5,10 @@
 <mapper namespace="com.akbar.mapper.ToDoMapper">
 
     <update id="update" parameterType="ToDo">
-        update feature_plan
+        update to_do
         <set>
             <if test="title != null">title = #{title},</if>
-            <if test="description != null">description = #{description},</if>
+            <if test="type != null">type = #{type},</if>
             <if test="isCompleted != null">is_completed = #{isCompleted},</if>
             <if test="completedTime != null">completed_time = #{completedTime},</if>
             <if test="adminId != null">admin_id = #{adminId},</if>

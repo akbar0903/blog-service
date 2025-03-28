@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)  // 会在哪个阶段保留，RUNTIME:运行时阶段
 @Constraint(validatedBy = {})        // 谁给这个注解提供校验规则，如果不提供，以NotBlank，Pattern作为校验规则
 @NotBlank(message = MessageConstant.PASSWORD_CANT_BE_EMPTY)
-@Pattern(regexp = RegexConstant.PASSWORD_PATTERN, message = MessageConstant.PASSWORD_TOO_SHORT)
+@Pattern(regexp = RegexConstant.PASSWORD_PATTERN, message = MessageConstant.PASSWORD_TOO_WEAK)
 public @interface ValidPassword {
     // 默认message信息，可以被（NotBlank，Pattern）的message覆盖
     String message() default "Invalid password";

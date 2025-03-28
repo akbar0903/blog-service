@@ -25,6 +25,7 @@
         <result property="content" column="content"/>
         <result property="coverImage" column="cover_image"/>
         <result property="state" column="state"/>
+        <result property="categoryId" column="category_id"/>
         <result property="categoryName" column="category_name"/>
         <result property="createdTime" column="created_time"/>
         <result property="updatedTime" column="updated_time"/>
@@ -42,6 +43,7 @@
                a.content,
                a.cover_image,
                a.state,
+               a.category_id,
                c.name AS category_name,
                t.name AS tag_name,
                a.created_time,
@@ -83,6 +85,7 @@
                a.content,
                a.cover_image,
                a.state,
+               a.category_id,
                a.created_time,
                a.updated_time,
                c.name as category_name,

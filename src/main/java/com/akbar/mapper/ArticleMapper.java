@@ -26,9 +26,6 @@ public interface ArticleMapper {
     @Delete(("delete from article where id = #{id}"))
     void delete(Integer id);
 
-    @Select("select count(id) from article where id = #{tagId}")
-    Integer countByTagId(Integer tagId);
-
     @Select("select count(id) from article where category_id = #{categoryId}")
     Integer countByCategoryId(Integer categoryId);
 
@@ -37,4 +34,7 @@ public interface ArticleMapper {
 
     // 根据id集合查询完整数据
     List<ArticleVo> selectArticleByIds(List<Integer> articleIds);
+
+    @Select("select count(id) from article where cover_image = #{url}")
+    Integer countByCoverImage(String url);
 }

@@ -3,6 +3,8 @@ package com.akbar.handler;
 import com.akbar.constant.MessageConstant;
 import com.akbar.exception.BaseException;
 import com.akbar.pojo.result.Result;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -41,6 +43,23 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining("; "));
+        return Result.error(errorMessage);
+    }
+
+
+    /**
+     * controller上加了@valadated
+     * 处理 @RequestParam 或 @PathVariable 校验失败的异常
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Result<String> handleConstraintViolationException(ConstraintViolationException e) {
+        log.error("校验失败: {}", e.getMessage());
+
+        // 提取具体的错误信息，去掉前缀
+        String errorMessage = e.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage) // 只获取校验失败的消息
+                .collect(Collectors.joining("; ")); // 如果有多个错误信息，用分号拼接
+
         return Result.error(errorMessage);
     }
 

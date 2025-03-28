@@ -5,7 +5,7 @@
 
 <mapper namespace="com.akbar.mapper.CategoryMapper">
     <update id="update" parameterType="Category">
-        update tag
+        update category
         <set>
             <if test="name != null">name = #{name},</if>
             <if test="adminId != null">admin_id = #{adminId},</if>

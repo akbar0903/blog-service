@@ -21,6 +21,7 @@ public class ArticleVo {
     private String content;
     private String coverImage;
     private Integer state;
+    private Integer categoryId;
     private String categoryName;
     private List<String> tagNames;
     @JsonFormat(pattern = TimeFormatConstant.DATE_TIME_PATTERN)

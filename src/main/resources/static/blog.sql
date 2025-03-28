@@ -70,7 +70,6 @@ create table if not exists to_do(
                                     title varchar(100) not null unique comment '任务名称',
                                     type varchar(20) not null comment '任务类型',
                                     is_completed tinyint not null default 0 comment '是否已完成，0：未完成，1已完成',
-                                    completed_time datetime null comment '完成时间',
                                     admin_id int unsigned not null comment '管理员id',
                                     created_time datetime not null comment '创建时间',
                                     updated_time datetime not null comment '更新时间'

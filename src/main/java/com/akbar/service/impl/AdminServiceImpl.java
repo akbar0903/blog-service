@@ -61,15 +61,19 @@ public class AdminServiceImpl implements AdminService {
         String confirmPassword = passwordEditDto.getConfirmPassword();
 
         Admin admin = adminMapper.getById(id);
+        if (admin == null) {
+            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
 
         if (!BCryptUtil.checkPassword(oldPassword, admin.getPassword())) {
             throw new PasswordErrorException(MessageConstant.OLD_PASSWORD_ERROR);
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            throw new PasswordErrorException(MessageConstant.PASSWORDS_DIFFERENT);
+            throw new PasswordErrorException(MessageConstant.PASSWORDS_DIFFERENT_ERROR);
         }
 
+        admin.setPassword(BCryptUtil.generateHashPwd(newPassword));
         admin.setUpdatedTime(LocalDateTime.now());
 
         adminMapper.update(admin);

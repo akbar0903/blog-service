@@ -1,6 +1,7 @@
 package com.akbar.service.impl;
 
 import com.akbar.annotation.RequiresAdmin;
+import com.akbar.constant.MessageConstant;
 import com.akbar.mapper.ToDoMapper;
 import com.akbar.pojo.entity.ToDo;
 import com.akbar.pojo.vo.ToDoVo;
@@ -51,17 +52,10 @@ public class ToDoServiceImpl implements ToDoService {
      */
     @RequiresAdmin
     @Override
-    public void updateToDo(Integer id, String title, String type, Integer isCompleted) {
+    public void updateToDo(Integer id, String title) {
         ToDo toDo = new ToDo();
         toDo.setId(id);
         toDo.setTitle(title);
-        toDo.setType(type);
-        toDo.setIsCompleted(isCompleted);
-
-        // 如果设置为已完成
-        if (isCompleted == 1) {
-            toDo.setCompletedTime(LocalDateTime.now());
-        }
 
         toDoMapper.update(toDo);
     }
@@ -83,5 +77,25 @@ public class ToDoServiceImpl implements ToDoService {
     @Override
     public List<ToDo> getToDoList() {
         return toDoMapper.list();
+    }
+
+
+    /**
+     * 切换任务状态
+     *
+     */
+    @RequiresAdmin
+    @Override
+    public void toggleIsCompleted(Integer id) {
+        ToDo toDo = toDoMapper.selectById(id);
+
+        // 如果是已完成就改成未完成，反之亦然
+        if (toDo.getIsCompleted() == 1) {
+            toDo.setIsCompleted(MessageConstant.TO_DO_UNCOMPLETED_STATUS);
+        } else {
+            toDo.setIsCompleted(MessageConstant.TO_DO_COMPLETED_STATUS);
+        }
+
+        toDoMapper.update(toDo);
     }
 }

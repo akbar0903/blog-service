@@ -22,7 +22,7 @@ public class ToDoController {
      * 添加任务
      *
      * @param title 标题
-     * @param type 描述
+     * @param type  描述
      */
     @PostMapping
     public Result<Void> addToDo(
@@ -52,29 +52,25 @@ public class ToDoController {
 
     /**
      * 更新任务
-     * @param id 任务id
-     * @param title 任务标题
-     * @param type 任务类型
-     * @param isCompleted 任务是否已完成
+     *
+     * @param id          任务id
+     * @param title       任务标题
      */
     @PutMapping
     public Result<Void> updateToDo(
             @RequestParam
             Integer id,
             @RequestParam
-            String title,
-            @RequestParam
-            String type,
-            @RequestParam(required = false)
-            Integer isCompleted) {
+            String title) {
 
-        toDoService.updateToDo(id, title, type, isCompleted);
+        toDoService.updateToDo(id, title);
         return Result.success();
     }
 
 
     /**
      * 删除任务
+     *
      * @param id 任务id
      */
     @DeleteMapping("/{id}")
@@ -86,11 +82,23 @@ public class ToDoController {
 
     /**
      * 获取任务列表
+     *
      * @return 任务列表
      */
     @GetMapping("/list")
     public Result<List<ToDo>> getToDoList() {
         List<ToDo> toDoList = toDoService.getToDoList();
         return Result.success(toDoList);
+    }
+
+    /**
+     * 设置成已完成
+     *
+     * @param id 任务id
+     */
+    @PatchMapping("/toggle")
+    public Result<Void> toggleIsCompleted(@RequestParam Integer id) {
+        toDoService.toggleIsCompleted(id);
+        return Result.success();
     }
 }

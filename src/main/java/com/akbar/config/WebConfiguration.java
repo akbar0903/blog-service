@@ -21,14 +21,14 @@ public class WebConfiguration implements WebMvcConfigurer {
                         "/category/**",
                         "/article/**",
                         "/image/**",
-                        "/feature-plan/**"
+                        "/todo/**"
                 )
                 .excludePathPatterns(
                         "/admin/login", "/admin/info",
                         "/tag/list",
                         "/category/list",
                         "/article/list",
-                        "/feature-plan/list"
+                        "/todo/list"
                 );
     }
 }

@@ -66,7 +66,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTag(Integer id) {
         // 当前标签下有文章，不能删
-        Integer count = articleMapper.countByTagId(id);
+        Integer count = articleTagMapper.countByTagId(id);
         if (count > 0) {
             throw new DeletionNotAllowedException(MessageConstant.TAG_HAS_ASSOCIATED_ARTICLES);
         }

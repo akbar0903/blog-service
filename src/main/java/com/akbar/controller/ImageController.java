@@ -21,18 +21,21 @@ public class ImageController {
      * 上传图片
      */
     @PostMapping("/upload")
-    public Result<Void> upload(@RequestParam MultipartFile file) throws IOException {
-        imageService.addImage(file);
-        return Result.success();
+    public Result<String> upload(@RequestParam MultipartFile file) throws IOException {
+        String url = imageService.addImage(file);
+        return Result.success(url);
     }
 
 
     /**
      * 删除图片
      */
-    @PostMapping("/delete")
-    public Result<Void> delete(@RequestParam String objectName) {
-        imageService.deleteImage(objectName);
+    @DeleteMapping("/delete")
+    public Result<Void> delete(
+            @RequestParam String url,
+            @RequestParam String objectName) {
+
+        imageService.deleteImage(url, objectName);
         return Result.success();
     }
 

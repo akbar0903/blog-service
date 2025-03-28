@@ -10,9 +10,11 @@ public interface ToDoService {
 
     ToDoVo getToDo(Integer id);
 
-    void updateToDo(Integer id, String title, String description, Integer isCompleted);
+    void updateToDo(Integer id, String title);
 
     void deleteToDo(Integer id);
 
     List<ToDo> getToDoList();
+
+    void toggleIsCompleted(Integer id);
 }

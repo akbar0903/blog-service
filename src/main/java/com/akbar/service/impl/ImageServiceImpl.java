@@ -3,7 +3,9 @@ package com.akbar.service.impl;
 import com.akbar.annotation.RequiresAdmin;
 import com.akbar.constant.MessageConstant;
 import com.akbar.context.BaseContext;
+import com.akbar.exception.DeletionNotAllowedException;
 import com.akbar.exception.FileUploadException;
+import com.akbar.mapper.ArticleMapper;
 import com.akbar.pojo.entity.Image;
 import com.akbar.mapper.ImageMapper;
 import com.akbar.pojo.result.PageResult;
@@ -28,6 +30,9 @@ public class ImageServiceImpl implements ImageService {
     private ImageMapper imageMapper;
 
     @Autowired
+    private ArticleMapper articleMapper;
+
+    @Autowired
     private AliyunOssUtil aliyunOssUtil;
 
 
@@ -36,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
      */
     @RequiresAdmin
     @Override
-    public void addImage(MultipartFile file) throws IOException {
+    public String addImage(MultipartFile file) throws IOException {
         //获取源文件名
         String originalFilename = file.getOriginalFilename();
 
@@ -64,6 +69,8 @@ public class ImageServiceImpl implements ImageService {
                 .uploadTime(LocalDateTime.now())
                 .build();
         imageMapper.addImage(image);
+
+        return url;
     }
 
 
@@ -72,7 +79,13 @@ public class ImageServiceImpl implements ImageService {
      */
     @RequiresAdmin
     @Override
-    public void deleteImage(String objectName) {
+    public void deleteImage(String url, String objectName) {
+        // 如果该图片是某个文章的封面，不能删
+        Integer count = articleMapper.countByCoverImage(url);
+        if (count > 0) {
+            throw new DeletionNotAllowedException(MessageConstant.IMAGE_HAS_ASSOCIATED_ARTICLES);
+        }
+
         // 从OSS删除
         aliyunOssUtil.delete(objectName);
         // 从数据库中删除

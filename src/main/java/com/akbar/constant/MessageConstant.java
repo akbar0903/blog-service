@@ -8,11 +8,13 @@ public class MessageConstant {
     // Admin
     public static final String PASSWORD_ERROR = "密码错误";
     public static final String OLD_PASSWORD_ERROR = "原密码错误";
-    public static final String PASSWORDS_DIFFERENT = "两次输入的密码不一样";
+    public static final String PASSWORDS_DIFFERENT_ERROR = "两次输入的密码不一样";
     public static final String ACCOUNT_NOT_FOUND = "账号不存在";
     public static final String USERNAME_CANT_BE_EMPTY = "用户名不能为空";
     public static final String PASSWORD_CANT_BE_EMPTY = "密码不能为空";
-    public static final String PASSWORD_TOO_SHORT = "密码必须大于等于6个字符";
+    public static final String OLD_PASSWORD_CANT_BE_EMPTY = "旧密码不能为空";
+    public static final String NEW_PASSWORD_CANT_BE_EMPTY = "新密码不能为空";
+    public static final String PASSWORD_TOO_WEAK = "密码至少8位，包含1个大写字母、1个小写字母、1个数字和1个特殊字符";
     public static final String INVALID_EMAIL = "Email格式不准确";
     public static final int MIN_QQ_NUMBER_LENGTH = 9;
     public static final int MAX_QQ_NUMBER_LENGTH = 15;
@@ -54,6 +56,7 @@ public class MessageConstant {
 
     // Image
     public static final String INVALID_IMAGE_EXTENSION = "当前图片格式不支持上传";
+    public static final String IMAGE_HAS_ASSOCIATED_ARTICLES = "当前图片关联了文章，不能删除";
 
     // MaxUploadSize
     public static final String FILE_SIZE_TOO_LARGE = "文件上传大小超过限制，最大允许10MB";
@@ -61,4 +64,6 @@ public class MessageConstant {
     // FeaturePlan
     public static final String TO_DO_TITLE_CANT_BE_EMPTY = "任务标题不能为空";
     public static final String TO_DO_TYPE_CANT_BE_EMPTY = "任务类型不能为空";
+    public static final Integer TO_DO_COMPLETED_STATUS = 1;
+    public static final Integer TO_DO_UNCOMPLETED_STATUS = 0;
 }

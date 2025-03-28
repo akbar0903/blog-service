@@ -7,12 +7,14 @@ import com.akbar.service.CategoryService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@Validated
 public class CategoryController {
 
     @Autowired
@@ -46,9 +48,9 @@ public class CategoryController {
     /**
      * 更新分类
      */
-    @PutMapping("/{id}")
+    @PutMapping
     public Result<Void> updateCategory(
-            @PathVariable Integer id,
+            @RequestParam Integer id,
 
             @RequestParam
             @NotBlank(message = MessageConstant.CATEGORY_NAME_CANT_BE_EMPTY)
